@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
-url = 'https://bdnews24.com/archive'
+url = 'https://thefinancialexpress.com.bd/'
 
 def fetch_article_data(url):
     response = requests.get(url)
@@ -15,43 +15,42 @@ def fetch_article_data(url):
 
     soup = BeautifulSoup(response.content, 'html.parser')
     
-    articles = soup.find_all('div', class_='SubCat-wrapper')
+    articles = soup.find_all('article', class_='mb-4')
     article_data = []
 
     for article in articles:
 
-        title_link = article.find('a')['href']
+        title_link = article.find('h3')
 
-        title_tag = article.find('h5')
-        publish_time = article.find('span', class_ = 'publish-time') # it is class_, not class
-        publish_time = publish_time.get_text(strip = True) if publish_time else 'No publish time'
+        if(title_link):
+            title_link = article.find('a')['href']
+        else:
+            'No Link found'
 
-        catagory_arch = article.find('span', class_ = 'catagory-arch') # it is class_, not class
-        catagory_arch = catagory_arch.get_text(strip = True) if catagory_arch else 'No catagory'
+        title_tag = article.find('p')
+
 
         if title_tag:
             title = title_tag.get_text(strip=True)
         
 
             article_data.append({
-                'title': title,
+                'title': title_tag,
                 'link' : title_link,
-                'catagory' : catagory_arch,
-                'publish_time' : publish_time
             })
 
     return article_data
 
 def save_to_csv(articles):
     directory = 'websites'
-    filename = 'bdnews24.csv'
+    filename = 'financialexpressbd.csv'
     
     os.makedirs(directory, exist_ok=True)
 
     file_path = os.path.join(directory, filename)
     
     with open(file_path, mode='w', newline='', encoding='utf-8') as file:
-        headers = ['title', 'link', 'catagory','publish_time']
+        headers = ['title', 'link']
         writer = csv.DictWriter(file, fieldnames=headers)
         writer.writeheader()
         writer.writerows(articles)
@@ -65,6 +64,8 @@ if __name__ == "__main__":
     for article in articles:
         print(f"Title: {article['title']}")
         print(f"Link: {url + article['link']}")  
-        print(f"Catagory: {url + article['catagory']}")  
-        print(f"Publication_time: {article['publish_time']}")
+        # print(f"Catagory: {url + article['catagory']}")  
+        # print(f"Publication_time: {article['publish_time']}")
         print("-" * 40)
+
+
