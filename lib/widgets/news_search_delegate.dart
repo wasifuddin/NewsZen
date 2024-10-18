@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/news_model.dart';
-import '../screens/detail_screen.dart'; // Assuming you have a details page for news
+import '../screens/detail_screen.dart'; 
 
 class NewsSearchDelegate extends SearchDelegate {
   final List<NewsModel> allNews;
@@ -17,24 +17,24 @@ class NewsSearchDelegate extends SearchDelegate {
 
   @override
   TextStyle? get searchFieldStyle => TextStyle(
-    fontSize: 18, // Change this value to set the text size
-    color: Colors.black, // You can also change the text color if needed
+    fontSize: 18, 
+    color: Colors.black, 
   );
 
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       Padding(
-        padding: const EdgeInsets.only(top: 0), // Custom padding for the action (clear) button
+        padding: const EdgeInsets.only(top: 0), 
         child: GestureDetector(
           onTap: () {
-            query = ''; // Clear the search query
+            query = ''; 
           },
           child: Container(
-            width: iconTouchSize, // Expand the touch area
-            height: iconTouchSize, // Expand the touch area
-            alignment: Alignment.center, // Center the icon
-            child: Icon(Icons.clear, color: Colors.red), // Clear button
+            width: iconTouchSize, 
+            height: iconTouchSize, 
+            alignment: Alignment.center, 
+            child: Icon(Icons.clear, color: Colors.red), 
           ),
         ),
       ),
@@ -44,16 +44,16 @@ class NewsSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 0), // Custom padding for the leading (back) button
+      padding: const EdgeInsets.only(top: 0), 
       child: GestureDetector(
         onTap: () {
-          close(context, null); // Close the search bar
+          close(context, null); 
         },
         child: Container(
-          width: iconTouchSize, // Expand the touch area
-          height: iconTouchSize, // Expand the touch area
-          alignment: Alignment.center, // Center the icon
-          child: Icon(Icons.arrow_back, color: Colors.red), // Back button
+          width: iconTouchSize, 
+          height: iconTouchSize, 
+          alignment: Alignment.center, 
+          child: Icon(Icons.arrow_back, color: Colors.red), 
         ),
       ),
     );
@@ -61,17 +61,17 @@ class NewsSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    // Filter news based on the search query
+    
     List<NewsModel> filteredNews = allNews.where((news) {
       return news.title.toLowerCase().contains(query.toLowerCase()) ||
           news.description.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
-    // Show a message if no results found
+    
     if (filteredNews.isEmpty) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0), // Add top padding to bring down the content
+          padding: const EdgeInsets.only(top: 16.0), 
           child: Text(
             "No results found",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
@@ -80,11 +80,11 @@ class NewsSearchDelegate extends SearchDelegate {
       );
     }
 
-    // Display search results
+    
     return Padding(
-      padding: const EdgeInsets.only(top: 0.0), // Add top padding to bring down the list
+      padding: const EdgeInsets.only(top: 0.0), 
       child: Container(
-        color: Colors.white, // Set background color to white
+        color: Colors.white, 
         child: ListView.builder(
           itemCount: filteredNews.length,
           itemBuilder: (context, index) {
@@ -92,9 +92,9 @@ class NewsSearchDelegate extends SearchDelegate {
             return Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: padding),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0), // Add margins around the card
+                margin: EdgeInsets.symmetric(horizontal: 16.0), 
                 child: Card(
-                  color: Colors.white, // Change the background color of the card
+                  color: Colors.white, 
                   elevation: 2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   child: ListTile(
@@ -112,11 +112,11 @@ class NewsSearchDelegate extends SearchDelegate {
                       ),
                     ),
                     onTap: () {
-                      // Navigate to the news detail screen when a result is tapped
+                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NewsDetailPage(newsItem: newsItem), // News detail page
+                          builder: (context) => NewsDetailPage(newsItem: newsItem), 
                         ),
                       );
                     },
@@ -132,16 +132,16 @@ class NewsSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Provide suggestions as the user types
+    
     List<NewsModel> suggestions = allNews.where((news) {
       return news.title.toLowerCase().contains(query.toLowerCase()) ||
           news.description.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
     return Padding(
-      padding: const EdgeInsets.only(top: 0.0), // Add top padding to bring down the suggestions list
+      padding: const EdgeInsets.only(top: 0.0), 
       child: Container(
-        color: Colors.white, // Set background color to white
+        color: Colors.white, 
         child: ListView.builder(
           itemCount: suggestions.length,
           itemBuilder: (context, index) {
@@ -149,17 +149,17 @@ class NewsSearchDelegate extends SearchDelegate {
             return Padding(
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: padding),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0), // Add margins around the card
+                margin: EdgeInsets.symmetric(horizontal: 16.0), 
                 child: Card(
-                  color: Colors.white, // Change the background color of the card
+                  color: Colors.white, 
                   child: ListTile(
                     title: Text(
                       newsItem.title,
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     onTap: () {
-                      query = newsItem.title; // Update search query with selected suggestion
-                      showResults(context); // Show results based on the suggestion
+                      query = newsItem.title; 
+                      showResults(context); 
                     },
                   ),
                 ),

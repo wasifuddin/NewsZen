@@ -24,7 +24,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   ];
 
   
-  final List<String> topics = ['All', 'Politics', 'Sports', 'World', 'Food', 'Space', 'Health', 'Technology', 'Automotive'];
+  final List<String> topics = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
 
   
   String? _selectedSource;

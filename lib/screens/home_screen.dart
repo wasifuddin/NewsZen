@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedTopic = 'All';
-  final List<String> topics = ['All', 'Politics', 'Sports', 'World', 'Food', 'Space', 'Health', 'Technology', 'Automotive'];
+  final List<String> topics = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
 
   List<NewsModel> getFilteredNews() {
     if (selectedTopic == 'All') {
