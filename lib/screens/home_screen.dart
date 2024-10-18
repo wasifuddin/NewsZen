@@ -4,6 +4,7 @@ import '../data/mock_data.dart';
 import '../widgets/horizontal_news_card.dart';
 import '../models/news_model.dart';
 import '../widgets/news_search_delegate.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String selectedTopic = 'All';
-
   final List<String> topics = ['All', 'Politics', 'Sports', 'World', 'Food', 'Space', 'Health', 'Technology', 'Automotive'];
 
   List<NewsModel> getFilteredNews() {
@@ -22,6 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
       return mockNewsData;
     }
     return mockNewsData.where((news) => news.topic == selectedTopic).toList();
+  }
+
+  
+  final PageController _pageController = PageController();
+  int currentPage = 0;
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
@@ -87,8 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: 200,
                       child: PageView.builder(
+                        controller: _pageController,
                         scrollDirection: Axis.horizontal,
                         itemCount: mockNewsData.length,
+                        onPageChanged: (int index) {
+                          setState(() {
+                            currentPage = index; 
+                          });
+                        },
                         itemBuilder: (context, index) {
                           final newsItem = mockNewsData[index];
                           return HorizontalNewsCard(newsItem: newsItem);
@@ -96,6 +111,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         pageSnapping: true,
                       ),
                     ),
+
+                    
+                    const SizedBox(height: 16.0),
+                    Center(
+                      child: SmoothPageIndicator(
+                        controller: _pageController, 
+                        count: mockNewsData.length,
+                        effect: ExpandingDotsEffect(
+                          dotHeight: 8.0,
+                          dotWidth: 8.0,
+                          activeDotColor: Colors.red,
+                          dotColor: Colors.grey.shade400,
+                        ),
+                      ),
+                    ),
+
                     const SizedBox(height: 16.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
