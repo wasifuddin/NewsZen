@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/news_card.dart';
 import '../data/mock_data.dart';
-import '../widgets/horizontal_news_card.dart';
 import '../models/news_model.dart';
 import '../widgets/news_search_delegate.dart';
 
@@ -60,9 +59,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 20.0),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 8.0, top: 20.0),
+          child: Text(
             'Discover',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
           ),
@@ -157,8 +156,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
             const SizedBox(height: 10),
             
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
