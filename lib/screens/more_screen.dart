@@ -9,9 +9,9 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 20.0),
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 8.0, top: 20.0),
+          child: Text(
             'More',
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
           ),
@@ -24,15 +24,15 @@ class ProfileScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 20), 
             
-            Center(
+            const Center(
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 80, 
                     backgroundImage: AssetImage('assets/profile.jpg'), 
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
+                  SizedBox(height: 20),
+                  Text(
                     'Arefeen Islam', 
                     style: TextStyle(
                       fontSize: 28,

@@ -39,7 +39,7 @@ class HorizontalNewsCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), 
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [

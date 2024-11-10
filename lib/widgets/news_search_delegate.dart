@@ -16,7 +16,7 @@ class NewsSearchDelegate extends SearchDelegate {
       });
 
   @override
-  TextStyle? get searchFieldStyle => TextStyle(
+  TextStyle? get searchFieldStyle => const TextStyle(
     fontSize: 18, 
     color: Colors.black, 
   );
@@ -34,7 +34,7 @@ class NewsSearchDelegate extends SearchDelegate {
             width: iconTouchSize, 
             height: iconTouchSize, 
             alignment: Alignment.center, 
-            child: Icon(Icons.clear, color: Colors.red), 
+            child: const Icon(Icons.clear, color: Colors.red), 
           ),
         ),
       ),
@@ -53,7 +53,7 @@ class NewsSearchDelegate extends SearchDelegate {
           width: iconTouchSize, 
           height: iconTouchSize, 
           alignment: Alignment.center, 
-          child: Icon(Icons.arrow_back, color: Colors.red), 
+          child: const Icon(Icons.arrow_back, color: Colors.red), 
         ),
       ),
     );
@@ -69,9 +69,9 @@ class NewsSearchDelegate extends SearchDelegate {
 
     
     if (filteredNews.isEmpty) {
-      return Center(
+      return const Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16.0), 
+          padding: EdgeInsets.only(top: 16.0), 
           child: Text(
             "No results found",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
@@ -92,7 +92,7 @@ class NewsSearchDelegate extends SearchDelegate {
             return Padding(
               padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: padding),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0), 
+                margin: const EdgeInsets.symmetric(horizontal: 16.0), 
                 child: Card(
                   color: Colors.white, 
                   elevation: 2,
@@ -100,7 +100,7 @@ class NewsSearchDelegate extends SearchDelegate {
                   child: ListTile(
                     title: Text(
                       newsItem.title,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -149,13 +149,13 @@ class NewsSearchDelegate extends SearchDelegate {
             return Padding(
               padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: padding),
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0), 
+                margin: const EdgeInsets.symmetric(horizontal: 16.0), 
                 child: Card(
                   color: Colors.white, 
                   child: ListTile(
                     title: Text(
                       newsItem.title,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     onTap: () {
                       query = newsItem.title; 

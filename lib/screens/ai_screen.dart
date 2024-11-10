@@ -9,9 +9,9 @@ class SavedScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 20), 
-          child: const Text(
+        title: const Padding(
+          padding: EdgeInsets.only(left: 8.0, top: 20), 
+          child: Text(
             'NewzAssistant',
             style: TextStyle(
               fontSize: 28,

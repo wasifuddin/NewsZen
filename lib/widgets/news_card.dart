@@ -79,7 +79,7 @@ class NewsCard extends StatelessWidget {
               const SizedBox(width: 8.0), 
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0), 
-                child: Container(
+                child: SizedBox(
                   width: 90, 
                   height: 90, 
                   child: Image.network(
