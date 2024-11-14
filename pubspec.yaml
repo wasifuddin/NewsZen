@@ -39,6 +39,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   flutter_dotenv: ^5.2.1
   mongo_dart: ^0.10.3
+  fluttertoast: ^8.2.8
 
 dev_dependencies:
   flutter_test:

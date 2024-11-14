@@ -3,6 +3,7 @@ import '../widgets/news_card.dart';
 import '../data/mock_data.dart';
 import '../models/news_model.dart';
 import '../widgets/news_search_delegate.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
@@ -12,6 +13,7 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  List<NewsModel>filteredNews = [];
   final List<String> _newsSources = ['CNN', 'BBC', 'Al Jazeera', 'The Daily Star', 'The Guardian', 'Prothom Alo'];
   final List<String> _sourceLogos = [
     'assets/logos/cnn.png',
@@ -29,6 +31,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   String? _selectedSource;
   String selectedTopic = 'All';
 
+
   
   void _toggleSource(String source) {
     setState(() {
@@ -37,12 +40,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   }
 
   
-  List<NewsModel> getFilteredNews() {
-    List<NewsModel> filteredNews = mockNewsData;
+  Future<List<NewsModel>> getFilteredNews() async {
+    
+    NewsFetcher news = new NewsFetcher();
+    List<NewsModel> filteredNews = await news.fetchnews();
+    // List<NewsModel> filteredNews = mockNewsData;
+    Fluttertoast.showToast(msg: filteredNews.toString());
 
     
     if (_selectedSource != null) {
       filteredNews = filteredNews.where((news) => news.source == _selectedSource).toList();
+      Fluttertoast.showToast(msg: filteredNews.toString());
     }
 
     
@@ -51,6 +59,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     }
 
     return filteredNews;
+
   }
 
   @override
@@ -168,12 +177,30 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
             
             Expanded(
-              child: ListView.builder(
-                itemCount: getFilteredNews().length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final newsItem = getFilteredNews()[index];
-                  return NewsCard(newsItem: newsItem);
+              child: FutureBuilder<List<NewsModel>>(
+                future: getFilteredNews(),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return Center(child: Text("wait a minute...."));
+                  }
+                  else if(snapshot.hasError)
+                  {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  else if(!snapshot.hasData || snapshot.data!.isEmpty) //data ! means the data is not null, ! is null assertion operator
+                  {
+                    return Center(child: Text('No news articles found. '));
+                  }
+                  else
+                  {
+                    List<NewsModel> filteredNews = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: filteredNews.length,
+                      itemBuilder: (context, index){
+                        return NewsCard(newsItem: filteredNews[index]);
+                      },
+                    );
+                  }
                 },
               ),
             ),

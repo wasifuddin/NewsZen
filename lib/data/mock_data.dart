@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:mongo_dart/mongo_dart.dart';
 
 import 'connection.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 
@@ -38,8 +38,8 @@ List<NewsModel> mockNewsData = [];
 
 void main() async {
   await loadMockNewsData();
-  print("Heres my data");
-  print(mockNewsData);
+  Fluttertoast.showToast(msg: "Testing if is it working or not");
+  Fluttertoast.showToast(msg: mockNewsData.toString());
 }
 
 
@@ -135,3 +135,4 @@ void main() async {
 //     topic: 'Science',
 //   ),
 // ];
+
