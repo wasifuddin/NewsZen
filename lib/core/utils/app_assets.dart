@@ -1,3 +1,5 @@
+import 'dart:async';
+
 class AppAssets{
   AppAssets._();
 
@@ -17,9 +19,11 @@ class _ImageConstant {
   String img_ittefaq_logo = '$imagePath/img_ittefaq_logo.png';
   String img_kaler_kontho_logo = '$imagePath/img_kaler_kontho_logo.png';
   String img_prothom_alo_logo = '$imagePath/img_prothom_alo_logo.png';
+  String img_logoname = '$imagePath/img_logoname.png';
 
   String img_dilip_kumar = '$imagePath/img_dilip_kumar.png';
   String img_news = '$imagePath/img_news.png';
+  String img_user_profile = "$imagePath/img_user_profile.jpg";
 
   String img_home_icon = '$imagePath/img_home_icon.png';
   String img_explore_icon = '$imagePath/img_explore_icon.png';
