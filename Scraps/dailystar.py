@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
+#title, imageurl, source, description, url, dateTime, topic
+
+
 url = 'https://www.thedailystar.net/'
 
 def fetch_article_data(url):

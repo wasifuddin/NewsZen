@@ -118,7 +118,6 @@ def save_to_csv(articles):
     os.makedirs(directory, exist_ok = True)
 
     file_path = os.path.join(directory, filename)
-
     print(file_path)
     
     with open(file_path, mode='w', newline='', encoding='utf-8') as file:
@@ -134,17 +133,17 @@ if __name__ == "__main__":
 
     articles = fetch_article_data(url)
 
-    save_to_csv(articles)
+    # save_to_csv(articles)
 
-    # for article in articles:
-    #     print(f"title: {article['title']}")
-    #     print(f"imageurl: {article['imageurl']}")  
-    #     print(f"source: {article['source']}")  
-    #     print(f"description: {article['description']}")  
-    #     print(f"url: {article['url']}")  
-    #     print(f"dateTime: {article['dateTime']}")  
-    #     print(f"topic: {article['topic']}")
-    #     print("-" * 40)
+    for article in articles:
+        print(f"title: {article['title']}")
+        print(f"imageurl: {article['imageurl']}")  
+        print(f"source: {article['source']}")  
+        print(f"description: {article['description']}")  
+        print(f"url: {article['url']}")  
+        print(f"dateTime: {article['dateTime']}")  
+        print(f"topic: {article['topic']}")
+        print("-" * 40)
 
 
 
