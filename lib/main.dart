@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'data/connection.dart';
 import 'screens/home_screen.dart';
 import 'screens/discover_screen.dart';
 import 'screens/ai_screen.dart';
 import 'screens/more_screen.dart';
+import 'data/mock_data.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MongoDatabase.connect();
+  // mockNewsData = await NewsRepository.getNews();
+  // print(mockNewsData);
   runApp(const MyApp());
 }
 
@@ -35,15 +41,15 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  
+
   final List<Widget> _pages = [
     const HomeScreen(),
-    const DiscoverScreen(),
-    const SavedScreen(),
-    const ProfileScreen(),
+    // const DiscoverScreen(),
+    // const SavedScreen(),
+    // const ProfileScreen(),
   ];
 
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -53,25 +59,25 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex], 
-      backgroundColor: Colors.white, 
+      body: _pages[_selectedIndex],
+      backgroundColor: Colors.white,
 
-      
+
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white, 
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)), 
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), 
-              spreadRadius: 2, 
-              blurRadius: 5, 
-              offset: const Offset(0, -2), 
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, -2),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)), 
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30.0)),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
@@ -94,11 +100,11 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
             type: BottomNavigationBarType.fixed,
-            selectedItemColor: Colors.red, 
-            unselectedItemColor: Colors.grey, 
-            backgroundColor: Colors.white, 
-            showSelectedLabels: false, 
-            showUnselectedLabels: false, 
+            selectedItemColor: Colors.red,
+            unselectedItemColor: Colors.grey,
+            backgroundColor: Colors.white,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
             iconSize: 32.0,
           ),
         ),

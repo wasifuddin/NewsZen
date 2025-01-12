@@ -3,7 +3,6 @@ import '../widgets/news_card.dart';
 import '../data/mock_data.dart';
 import '../models/news_model.dart';
 import '../widgets/news_search_delegate.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
@@ -13,7 +12,6 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
-  List<NewsModel>filteredNews = [];
   final List<String> _newsSources = ['CNN', 'BBC', 'Al Jazeera', 'The Daily Star', 'The Guardian', 'Prothom Alo'];
   final List<String> _sourceLogos = [
     'assets/logos/cnn.png',
@@ -24,42 +22,35 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     'assets/logos/prothomalo.jpeg',
   ];
 
-  
+
   final List<String> topics = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
 
-  
+
   String? _selectedSource;
   String selectedTopic = 'All';
 
 
-  
   void _toggleSource(String source) {
     setState(() {
       _selectedSource = (_selectedSource == source) ? null : source;
     });
   }
 
-  
-  Future<List<NewsModel>> getFilteredNews() async {
-    
-    NewsFetcher news = new NewsFetcher();
-    List<NewsModel> filteredNews = await news.fetchnews();
-    // List<NewsModel> filteredNews = mockNewsData;
-    Fluttertoast.showToast(msg: filteredNews.toString());
 
-    
+  List<NewsModel> getFilteredNews() {
+    List<NewsModel> filteredNews = mockNewsData;
+
+
     if (_selectedSource != null) {
       filteredNews = filteredNews.where((news) => news.source == _selectedSource).toList();
-      Fluttertoast.showToast(msg: filteredNews.toString());
     }
 
-    
+
     if (selectedTopic != 'All') {
       filteredNews = filteredNews.where((news) => news.topic == selectedTopic).toList();
     }
 
     return filteredNews;
-
   }
 
   @override
@@ -97,9 +88,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            
+
             SizedBox(
-              height: 100, 
+              height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _newsSources.length,
@@ -116,7 +107,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           padding: const EdgeInsets.only(right: 4.0),
                           child: CircleAvatar(
                             radius: 35,
-                            backgroundImage: AssetImage(_sourceLogos[index]), 
+                            backgroundImage: AssetImage(_sourceLogos[index]),
                             child: (_selectedSource == source)
                                 ? Container(
                               decoration: BoxDecoration(
@@ -135,7 +126,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
             const SizedBox(height: 0),
 
-            
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
@@ -164,7 +155,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             ),
 
             const SizedBox(height: 10),
-            
+
             const Padding(
               padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
               child: Align(
@@ -175,32 +166,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 ),
               ),
             ),
-            
+
             Expanded(
-              child: FutureBuilder<List<NewsModel>>(
-                future: getFilteredNews(),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center(child: Text("wait a minute...."));
-                  }
-                  else if(snapshot.hasError)
-                  {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-                  else if(!snapshot.hasData || snapshot.data!.isEmpty) //data ! means the data is not null, ! is null assertion operator
-                  {
-                    return Center(child: Text('No news articles found. '));
-                  }
-                  else
-                  {
-                    List<NewsModel> filteredNews = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: filteredNews.length,
-                      itemBuilder: (context, index){
-                        return NewsCard(newsItem: filteredNews[index]);
-                      },
-                    );
-                  }
+              child: ListView.builder(
+                itemCount: getFilteredNews().length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final newsItem = getFilteredNews()[index];
+                  return NewsCard(newsItem: newsItem);
                 },
               ),
             ),

@@ -1,48 +1,23 @@
 import '../models/news_model.dart'; // Import the NewsModel
-
-import 'dart:developer';
-
-import 'package:mongo_dart/mongo_dart.dart';
-
 import 'connection.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 
+class NewsRepository {
+  static Future<List<NewsModel>> getNews() async {
+    // Connect to the database
+    var collection = await MongoDatabase.connect();
 
-class NewsFetcher {
+    // Fetch data from the collection
+    var newsData = await collection.find().toList();
 
-  static var db, userCollection;
-
-  Future<List<NewsModel>> fetchnews() async {
-
-      db = await Db.create(mongoConUrl); //connect with the database
-      await db.open();
-      inspect(db);
-      userCollection = db.collection(userConnection);
-
-      List<Map<String, dynamic>> newsData = await userCollection.find().toList();
-      await db.close();
-
-      return newsData.map((json) => NewsModel.fromJson(json)).toList();
-
+    // Map the dynamic list to a List<NewsModel>
+    return newsData.map<NewsModel>((json) => NewsModel.fromMap(json)).toList();
   }
-
 }
 
-Future<void> loadMockNewsData() async{
-  NewsFetcher newsFetcher = NewsFetcher();
-  mockNewsData = await newsFetcher.fetchnews();
-}
 
 List<NewsModel> mockNewsData = [];
-
-void main() async {
-  await loadMockNewsData();
-  Fluttertoast.showToast(msg: "Testing if is it working or not");
-  Fluttertoast.showToast(msg: mockNewsData.toString());
-}
-
-
+//     return newsData.map((json) => NewsModel.fromMap(json)).toList();
 // List<NewsModel> mockNewsData = [
 //   NewsModel(
 //     title: 'Breaking: World Leaders Meet in Geneva for Peace Talks',
@@ -135,4 +110,3 @@ void main() async {
 //     topic: 'Science',
 //   ),
 // ];
-

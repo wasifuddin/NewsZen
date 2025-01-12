@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/news_model.dart';
-import '../screens/detail_screen.dart'; 
-import 'package:intl/intl.dart'; 
+import '../screens/detail_screen.dart';
+import 'package:intl/intl.dart';
 
 class HorizontalNewsCard extends StatelessWidget {
   final NewsModel newsItem;
@@ -12,6 +12,7 @@ class HorizontalNewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     
     String formattedDate = DateFormat('MMM dd, yyyy').format(newsItem.dateTime);
+    // String formattedDate = newsItem.dateTime;
 
     return GestureDetector(
       onTap: () {

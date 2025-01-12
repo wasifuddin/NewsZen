@@ -12,9 +12,23 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
+
   String selectedTopic = 'All';
-  final List<String> topics = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
+  final List<String> topics = [
+    'All',
+    'World',
+    'National & International',
+    'Bangladesh',
+    'Economy',
+    'Technology',
+    'Health',
+    'Space',
+    'Food',
+    'Politics',
+    'Automotive'
+  ];
 
   List<NewsModel> getFilteredNews() {
     if (selectedTopic == 'All') {
@@ -23,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return mockNewsData.where((news) => news.topic == selectedTopic).toList();
   }
 
-  
   final PageController _pageController = PageController();
   int currentPage = 0;
 
@@ -33,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.only(left: 8.0, top: 20.0),
           child: Text(
             'NewsZen',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
+            style: TextStyle(
+                fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
           ),
         ),
       ),
@@ -67,8 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: selectedTopic == topic ? Colors.red : Colors.white,
-                          foregroundColor: selectedTopic == topic ? Colors.white : Colors.black,
+                          backgroundColor: selectedTopic == topic
+                              ? Colors.red
+                              : Colors.white,
+                          foregroundColor: selectedTopic == topic
+                              ? Colors.white
+                              : Colors.black,
                         ),
                         child: Text(topic),
                       ),
@@ -88,7 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Breaking News',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                          style: TextStyle(fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         ),
                       ),
                     ),
@@ -100,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: mockNewsData.length,
                         onPageChanged: (int index) {
                           setState(() {
-                            currentPage = index; 
+                            currentPage = index;
                           });
                         },
                         itemBuilder: (context, index) {
@@ -110,13 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         pageSnapping: true,
                       ),
                     ),
-
-                    
                     const SizedBox(height: 16.0),
                     Center(
                       child: SmoothPageIndicator(
-                        controller: _pageController, 
-                        count: mockNewsData.length,
+                        controller: _pageController,
+                        count: mockNewsData.length, // Dynamic length
                         effect: ExpandingDotsEffect(
                           dotHeight: 8.0,
                           dotWidth: 8.0,
@@ -125,25 +143,50 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 16.0),
                     const Padding(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+                      padding: EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 8.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Suggestions',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                          style: TextStyle(fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
                         ),
                       ),
                     ),
-                    ListView.builder(
-                      itemCount: getFilteredNews().length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final newsItem = getFilteredNews()[index];
-                        return NewsCard(newsItem: newsItem);
+                    FutureBuilder<List<NewsModel>>(
+                      future: NewsRepository.getNews(),
+                      builder: (context, AsyncSnapshot<List<
+                          NewsModel>> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error: ${snapshot.error}"),
+                          );
+                        } else
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return const Center(
+                            child: Text("No data found"),
+                          );
+                        } else {
+                          var newsList = snapshot.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: newsList.length,
+                            itemBuilder: (context, index) {
+                              final newsItem = newsList[index];
+                              return NewsCard(newsItem: newsItem);
+                            },
+                          );
+                        }
                       },
                     ),
                   ],
@@ -156,3 +199,190 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
+
+// return Scaffold(
+// body: SafeArea(
+// child: FutureBuilder<List<NewsModel>>(
+// future: NewsRepository.getNews(),
+// builder: (context, AsyncSnapshot<List<NewsModel>> snapshot) {
+// if (snapshot.connectionState == ConnectionState.waiting) {
+// return Center(
+// child: CircularProgressIndicator(),
+// );
+// } else if (snapshot.hasError) {
+// return Center(
+// child: Text("Error: ${snapshot.error}"),
+// );
+// } else if (!snapshot.hasData) {
+// return Center(
+// child: Text("No data found"),
+// );
+// } else {
+// var newsList = snapshot.data;
+// return ListView.builder(
+// itemCount: newsList!.length,
+// itemBuilder: (context, index) {
+// var news = newsList[index];
+// return ListTile(
+// title: Text(news.title),
+// subtitle: Text(news.description),
+// );
+// },
+// );
+// }
+// },
+// ),
+// ),
+// );
+// }
+
+// class _HomeScreenState extends State<HomeScreen> {
+//   String selectedTopic = 'All';
+//   final List<String> topics = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
+
+//   List<NewsModel> getFilteredNews() {
+
+    
+
+//     if (selectedTopic == 'All') {
+//       return mockNewsData;
+//     }
+//     return mockNewsData.where((news) => news.topic == selectedTopic).toList();
+//   }
+
+  
+//   final PageController _pageController = PageController();
+//   int currentPage = 0;
+
+//   @override
+//   void dispose() {
+//     _pageController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         title: const Padding(
+//           padding: EdgeInsets.only(left: 8.0, top: 20.0),
+//           child: Text(
+//             'NewsZen',
+//             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red),
+//           ),
+//         ),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+//         child: Column(
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.all(8.0),
+//               child: SingleChildScrollView(
+//                 scrollDirection: Axis.horizontal,
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   children: topics.map((topic) {
+//                     return Padding(
+//                       padding: const EdgeInsets.only(right: 8.0),
+//                       child: ElevatedButton(
+//                         onPressed: () {
+//                           setState(() {
+//                             selectedTopic = topic;
+//                           });
+//                         },
+//                         style: ElevatedButton.styleFrom(
+//                           backgroundColor: selectedTopic == topic ? Colors.red : Colors.white,
+//                           foregroundColor: selectedTopic == topic ? Colors.white : Colors.black,
+//                         ),
+//                         child: Text(topic),
+//                       ),
+//                     );
+//                   }).toList(),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(height: 0.0),
+//             Expanded(
+//               child: SingleChildScrollView(
+//                 child: Column(
+//                   children: [
+//                     const Padding(
+//                       padding: EdgeInsets.all(8.0),
+//                       child: Align(
+//                         alignment: Alignment.centerLeft,
+//                         child: Text(
+//                           'Breaking News',
+//                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+//                         ),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 200,
+//                       child: PageView.builder(
+//                         controller: _pageController,
+//                         scrollDirection: Axis.horizontal,
+//                         itemCount: mockNewsData.length,
+//                         onPageChanged: (int index) {
+//                           setState(() {
+//                             currentPage = index; 
+//                           });
+//                         },
+//                         itemBuilder: (context, index) {
+//                           final newsItem = mockNewsData[index];
+//                           return HorizontalNewsCard(newsItem: newsItem);
+//                         },
+//                         pageSnapping: true,
+//                       ),
+//                     ),
+
+                    
+//                     const SizedBox(height: 16.0),
+//                     Center(
+//                       child: SmoothPageIndicator(
+//                         controller: _pageController, 
+//                         count: mockNewsData.length,
+//                         effect: ExpandingDotsEffect(
+//                           dotHeight: 8.0,
+//                           dotWidth: 8.0,
+//                           activeDotColor: Colors.red,
+//                           dotColor: Colors.grey.shade400,
+//                         ),
+//                       ),
+//                     ),
+
+//                     const SizedBox(height: 16.0),
+//                     const Padding(
+//                       padding: EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
+//                       child: Align(
+//                         alignment: Alignment.centerLeft,
+//                         child: Text(
+//                           'Suggestions',
+//                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+//                         ),
+//                       ),
+//                     ),
+//                     ListView.builder(
+//                       itemCount: getFilteredNews().length,
+//                       shrinkWrap: true,
+//                       physics: const NeverScrollableScrollPhysics(),
+//                       itemBuilder: (context, index) {
+//                         final newsItem = getFilteredNews()[index];
+//                         return NewsCard(newsItem: newsItem);
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

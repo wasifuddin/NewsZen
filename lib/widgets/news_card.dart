@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/news_model.dart';
+import '../screens/detail_screen.dart';
 import 'package:intl/intl.dart';
-import '../screens/detail_screen.dart'; 
 
 class NewsCard extends StatelessWidget {
   final NewsModel newsItem;
@@ -11,7 +11,8 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    String formattedDate = DateFormat('MMM d, yyyy').format(newsItem.dateTime); 
+    String formattedDate = DateFormat('MMM d, yyyy').format(newsItem.dateTime);
+    // String formattedDate = newsItem.dateTime;
 
     return Card(
       elevation: 0, 

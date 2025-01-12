@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/news_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart'; 
 
 class NewsDetailPage extends StatefulWidget {
   final NewsModel newsItem;
@@ -40,6 +40,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('MMM dd, yyyy').format(widget.newsItem.dateTime);
+    // String formattedDate = widget.newsItem.dateTime;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomScrollView(
