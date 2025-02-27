@@ -3,6 +3,7 @@ import 'package:news_zen/features/main/presentation/ai_screen/ai_screen.dart';
 import 'package:news_zen/features/main/presentation/explore_screen/explore_screen.dart';
 import 'package:news_zen/features/main/presentation/home_screen/home_screen.dart';
 import 'package:news_zen/features/main/presentation/profile_screen/profile_screen.dart';
+import 'package:news_zen/features/main/presentation/socials_screen//socials_screen.dart';
 
 class MainBottomBar extends StatefulWidget {
   const MainBottomBar({super.key});
@@ -25,6 +26,11 @@ class _MainBottomBarState extends State<MainBottomBar> {
       icon: Icons.explore_outlined,
       activeIcon: Icons.explore,
       body: const ExploreScreen(),
+    ),
+    BottomMenuModel(
+      icon: Icons.window_outlined,
+      activeIcon: Icons.window,
+      body: const SocialsScreen(),
     ),
     BottomMenuModel(
       icon: Icons.chat_outlined,
