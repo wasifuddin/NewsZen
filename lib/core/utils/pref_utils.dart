@@ -21,8 +21,8 @@ class PrefUtils{
   static Future<void> saveLoginInfo(String phoneNumber, String password) async {
     await _sharedPreferences?.setString('phone_Number', phoneNumber);
     await _sharedPreferences?.setString('password', password);
-
   }
+
   static Future<String?> getPhoneNumber() async{
     return _sharedPreferences?.getString('phone_Number');
   }

@@ -23,11 +23,11 @@ class CustomTextFormField extends StatelessWidget {
         obscureText: obscureTextOn ?? false,
         keyboardType: TextInputType.text,
         style: const TextStyle(
-          letterSpacing: 2,
+          letterSpacing: 1,
         ),
         validator: validator,
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(10.0),
+          contentPadding: const EdgeInsets.all(14.0),
           enabledBorder: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(16)),
             borderSide: BorderSide(color: borderColour==true ? primary_red : Colors.grey),
@@ -47,6 +47,7 @@ class CustomTextFormField extends StatelessWidget {
           hintText: hintText,
           hintStyle: const TextStyle(
             fontSize: 14,
+              fontWeight: FontWeight.w500,
               fontFamily: 'Montserrat'
           ),
           suffixIcon: SizedBox(

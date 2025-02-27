@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/features/main/presentation/edit_profile_screen/edit_profile_screen.dart';
 import 'package:news_zen/features/main/presentation/saved_screen/saved_screen.dart';
 import 'package:news_zen/features/main/presentation/preferred_tags_screen/preferred_tags_screen.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
+import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
+import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -150,7 +153,7 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.logout,
                 text: "Logout",
                 onPressed: () {
-                  // Handle logout
+                  BlocProvider.of<LoginCubit>(context).logout(context);
                 },
                 isLogout: true,
               ),

@@ -20,19 +20,19 @@ class AppStrings {
   static const String lblPhoneNumber = 'Phone Number';
   static const String lblPassword = 'Password'; */
 
-  static const String lblWelcome = 'Welcome! Let’s dive into your account!';
+  static const String lblWelcome = 'Welcome! Let’s dive into your account.';
   static const String lblPhoneNumber = 'Phone Number';
   static const String lblPassword = 'Password';
-  static const String lblLogin = 'Sign in with password';
+  static const String lblLogin = 'Sign In';
   static const String lblFotgetPassword = 'Forgot Password?';
 
   static const String errMsgPleaseEnterValidPhone =
-      "Please Enter Valid Phonenumber";
+      "Please Enter A Valid Phone Number";
   static const String errMsgPleaseEnterValidPassword =
-      "Please Enter Valid Password";
+      "Please Enter A Valid Password";
   static const String errMsgRequiredField = "Required Field";
 
-  static const String errMsgInvalidInput = "Invalid input";
+  static const String errMsgInvalidInput = "Invalid Input";
 
 
  /* static const String lblPickerId = 'পিকার  আইডি';

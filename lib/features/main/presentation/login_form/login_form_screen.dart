@@ -54,17 +54,18 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 90),
+            SizedBox(height: 160),
             Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.only(right: 60.0),
+                padding: EdgeInsets.only(right: 0.0),
                 child: Image.asset(
                   AppAssets.image.img_logoname,
+                  width: 240,
                 ),
               ),
             ),
+            SizedBox(height: 72),
             Text(
               AppStrings.lblWelcome,
               style: TextStyle(
@@ -74,11 +75,10 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
                 fontWeight: FontWeight.w200,
               ),
             ),
-            SizedBox(
-                height: 45),
+            SizedBox(height: 24),
 
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: CustomTextFormField(
                 controller: loginCubit.phoneNumberController,
                 validator: (value)
@@ -89,10 +89,9 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
               ),
             ),
 
-            SizedBox(
-                height: 15),
+            //SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.only(left: 23,right: 23, bottom: 23),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: CustomTextFormField(
                 controller: loginCubit.passwordController,
                 validator: (value)
@@ -103,13 +102,12 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
                 obscureTextOn: true,
               ),
             ),
-            SizedBox(
-                height: 35),
+            SizedBox(height: 0),
             Padding(
-              padding: const EdgeInsets.only(right: 50,left:50),
+              padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 8),
               child: SizedBox(
                 width: double.infinity,
-                height:55,
+                height:56,
                 child: ElevatedButton(
                     onPressed: onLoginClick,
                     style: ElevatedButton.styleFrom(

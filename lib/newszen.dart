@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:news_zen/core/utils/pref_utilis.dart';
+import 'package:news_zen/core/utils/pref_utils.dart';
 import 'package:news_zen/features/main/presentation/bottom_nav/bottom_nav.dart';
 import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.dart';
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
