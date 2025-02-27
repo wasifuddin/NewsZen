@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:news_zen/core/model/news_model.dart';
-import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/features/main/presentation/detail_screen/detail_screen.dart';
 class LatestNewsCard extends StatelessWidget {
   final NewsModel newsItem;
 
-  const LatestNewsCard({required this.newsItem});
+  const LatestNewsCard({super.key, required this.newsItem});
 
   @override
   Widget build(BuildContext context) {

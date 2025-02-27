@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0'
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -16,3 +26,17 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+//android {
+//    java {
+//        toolchain {
+//            languageVersion.set(JavaLanguageVersion.of(17)) // Ensure it matches your target
+//        }
+//    }
+//
+//    kotlin {
+//        jvmToolchain {
+//            languageVersion.set(JavaLanguageVersion.of(17))
+//        }
+//    }
+//}

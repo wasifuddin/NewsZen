@@ -1,15 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_zen/features/main/presentation/ai_screen/ai_screen.dart';
-import 'package:news_zen/features/main/presentation/discover_screen/discover_screen.dart';
 import 'package:news_zen/features/main/presentation/explore_screen/explore_screen.dart';
 import 'package:news_zen/features/main/presentation/home_screen/home_screen.dart';
-import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 import 'package:news_zen/features/main/presentation/profile_screen/profile_screen.dart';
-import 'package:news_zen/features/main/presentation/saved_screen/saved_screen.dart';
-
-import '../../../../core/utils/app_assets.dart';
-import '../../domain/models/bottom_menu_model.dart';
 
 class MainBottomBar extends StatefulWidget {
   const MainBottomBar({super.key});
@@ -19,109 +12,59 @@ class MainBottomBar extends StatefulWidget {
 }
 
 class _MainBottomBarState extends State<MainBottomBar> {
-
   late PageController _pageController;
   int _selectedIndex = 0;
 
-
   final List<BottomMenuModel> _bottomMenuList = [
     BottomMenuModel(
-        icon: AppAssets.image.img_home_icon,
-        activeIcon: AppAssets.image.img_home_icon_active,
-        body: HomeScreen()),
-
+      icon: Icons.home_outlined,
+      activeIcon: Icons.home,
+      body: const HomeScreen(),
+    ),
     BottomMenuModel(
-        icon: AppAssets.image.img_explore_icon,
-        activeIcon: AppAssets.image.img_explore_icon_active,
-        body: ExploreScreen()),
-
+      icon: Icons.explore_outlined,
+      activeIcon: Icons.explore,
+      body: const ExploreScreen(),
+    ),
     BottomMenuModel(
-        icon: AppAssets.image.img_saved_icon,
-        activeIcon: AppAssets.image.img_saved_icon_active,
-        body: AIChatScreen()),
-
+      icon: Icons.chat_outlined,
+      activeIcon: Icons.chat,
+      body: const AIChatScreen(),
+    ),
     BottomMenuModel(
-        icon: AppAssets.image.img_profile_icon,
-        activeIcon: AppAssets.image.img_profile_icon_active,
-        body: ProfileScreen()),
+      icon: Icons.person_outlined,
+      activeIcon: Icons.person,
+      body: const ProfileScreen(),
+    ),
   ];
 
   @override
-  void initState()
-  {
-    _pageController = PageController(initialPage: 0);
+  void initState() {
+    _pageController = PageController(initialPage: _selectedIndex);
     super.initState();
   }
 
-  void _onItemSelect(int index) {
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       _pageController.animateToPage(
         index,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
-      );// _pageController.jumpToPage(index);
+      );
     });
   }
 
-  Widget _item({
-    required int index,
-    required String selectedIcon,
-    required String unSelectedIcon,
-  }) {
-
-    bool isSelected = _selectedIndex == index;
-
-    return Expanded(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: 35,
-        ),
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Positioned(
-              top: -24,
-              child: AnimatedContainer(
-                width: isSelected ? 40 : 0,
-                height: isSelected ? 40 : 0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ), duration: const Duration(milliseconds: 300),
-              ),
-            ),
-
-            SizedBox(
-              width: double.maxFinite,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  onTap: () => _onItemSelect(index),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(isSelected? selectedIcon : unSelectedIcon),
-                      const Spacer(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _bottomNavBar() {
+  Widget _buildBottomNavBar() {
     return Container(
       height: 65,
-      margin: const EdgeInsets.all(0.0),
-      padding: EdgeInsets.only(top:8.00),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
@@ -129,38 +72,78 @@ class _MainBottomBarState extends State<MainBottomBar> {
         ),
       ),
       child: Row(
-        children: List.generate(_bottomMenuList.length, (index) {
-          return _item(
+        children: _bottomMenuList.map((menu) {
+          final index = _bottomMenuList.indexOf(menu);
+          return _buildBottomNavItem(
             index: index,
-            selectedIcon: _bottomMenuList[index].activeIcon,
-            // selectedIcon: '',
-            unSelectedIcon: _bottomMenuList[index].icon,
-            //title: '',
+            selectedIcon: menu.activeIcon,
+            unSelectedIcon: menu.icon,
           );
-        }),
+        }).toList(),
       ),
     );
   }
+
+  Widget _buildBottomNavItem({
+    required int index,
+    required IconData selectedIcon,
+    required IconData unSelectedIcon,
+  }) {
+    final isSelected = _selectedIndex == index;
+
+    return Expanded(
+      child: InkWell(
+        onTap: () => _onItemTapped(index),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Icon(
+                isSelected ? selectedIcon : unSelectedIcon,
+                key: ValueKey(isSelected),
+                color: isSelected ? Colors.red : Colors.grey,
+                size: 24,
+              ),
+            ),
+            if (isSelected)
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                height: 4,
+                width: 4,
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  shape: BoxShape.circle,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: List.generate(_bottomMenuList.length, (index) => _bottomMenuList[index].body),
-          ),
-
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: _bottomNavBar(),
-          ),
-        ],
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _bottomMenuList.map((menu) => menu.body).toList(),
       ),
+      bottomNavigationBar: _buildBottomNavBar(),
     );
   }
+}
+
+class BottomMenuModel {
+  final IconData icon;
+  final IconData activeIcon;
+  final Widget body;
+
+  BottomMenuModel({
+    required this.icon,
+    required this.activeIcon,
+    required this.body,
+  });
 }

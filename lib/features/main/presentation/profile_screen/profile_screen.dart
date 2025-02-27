@@ -52,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 */
-import 'package:news_zen/core/localization/app_strings.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:flutter/material.dart';

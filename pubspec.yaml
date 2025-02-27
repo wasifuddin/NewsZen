@@ -31,41 +31,39 @@ dependencies:
   flutter:
     sdk: flutter
 
-  go_router: ^13.2.4
+  go_router:
 
-  flutter_bloc: ^8.1.5
+  flutter_bloc:
 
-  equatable: ^2.0.5
+  equatable:
 
-  string_validator: ^1.1.0
+  string_validator:
 
-  file_picker: ^8.0.6
+  file_picker:
 
-  image_picker: ^1.1.2
+  image_picker:
 
-  shared_preferences: ^2.2.3
+  shared_preferences:
     # The following adds the Cupertino Icons font to your application.
     # Use with the CupertinoIcons class for iOS style icons.
-  mobile_scanner: ^5.2.1
+  mobile_scanner:
 
-  flutter_native_splash: ^2.4.1
+  flutter_native_splash:
 
-  auto_size_text: ^3.0.0
+  auto_size_text:
 
-  qr_scanner_overlay: ^0.0.2
+  qr_scanner_overlay:
 
-  sizer: ^3.0.3
-
-  permission_handler: ^11.0.1
-  responsive_sizer: ^3.0.6
+  permission_handler:
+  responsive_sizer:
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  intl: ^0.19.0
-  url_launcher: ^6.0.20
-  smooth_page_indicator: ^1.2.0+3
+  cupertino_icons:
+  intl:
+  url_launcher:
+  smooth_page_indicator:
 
 dev_dependencies:
   flutter_test:
@@ -76,7 +74,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
