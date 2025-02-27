@@ -9,6 +9,7 @@ import 'package:news_zen/core/widgets/horizontal_news_card.dart';
 import 'package:news_zen/core/widgets/news_card.dart';
 import 'package:news_zen/features/main/presentation/search_screen/search_screen.dart';
 import 'package:news_zen/features/main/presentation/search_screen/bloc/search_bloc.dart';
+import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 import 'bloc/explore_bloc.dart';
 
 
@@ -39,7 +40,9 @@ class ExploreScreen extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showNotificationScreen(context);
+                      },
                       icon: Icon(Icons.notifications, color: primary_red),
                     ),
                   ],

@@ -7,6 +7,7 @@ import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/core/widgets/horizontal_news_card.dart';
 import 'package:news_zen/core/widgets/news_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 import 'bloc/home_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -37,7 +38,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showNotificationScreen(context);
+                      },
                       icon: Icon(Icons.notifications, color: primary_red),
                     ),
                   ],

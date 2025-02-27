@@ -4,6 +4,7 @@ import 'package:news_zen/core/model/social_model.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/core/widgets/social_post_card.dart';
+import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 
 class SocialsScreen extends StatefulWidget {
   const SocialsScreen({super.key});
@@ -44,7 +45,9 @@ class _SocialsScreenState extends State<SocialsScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showNotificationScreen(context);
+                    },
                     icon: Icon(Icons.notifications, color: primary_red),
                   ),
                 ],

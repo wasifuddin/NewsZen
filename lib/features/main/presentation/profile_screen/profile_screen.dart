@@ -4,6 +4,7 @@ import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/features/main/presentation/edit_profile_screen/edit_profile_screen.dart';
 import 'package:news_zen/features/main/presentation/saved_screen/saved_screen.dart';
 import 'package:news_zen/features/main/presentation/preferred_tags_screen/preferred_tags_screen.dart';
+import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -33,7 +34,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showNotificationScreen(context);
+                    },
                     icon: Icon(Icons.notifications, color: primary_red),
                   ),
                 ],
@@ -175,7 +178,7 @@ class ProfileScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: isLogout ? Colors.red : primary_red,
+            backgroundColor: isLogout ? Colors.red : Colors.grey,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),

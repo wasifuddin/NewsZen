@@ -47,6 +47,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
         controller: _scrollController,
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: main_background_colour,
             expandedHeight: MediaQuery.of(context).size.height * 0.4,
             flexibleSpace: FlexibleSpaceBar(
@@ -74,6 +75,22 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   ),
                   Positioned(
                     top: 36,
+                    left: 16,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: Colors.white, // White circle
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 36,
                     right: 20,
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -87,7 +104,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat'
+                          fontFamily: 'Montserrat',
                         ),
                       ),
                     ),
@@ -102,11 +119,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           children: [
                             Text(
                               '${widget.newsItem.source} | ',
-                              style: const TextStyle(fontSize: 16, color: Colors.grey,  fontFamily: 'Montserrat'),
+                              style: const TextStyle(fontSize: 16, color: Colors.grey, fontFamily: 'Montserrat'),
                             ),
                             Text(
                               formattedDate,
-                              style: const TextStyle(fontSize: 16, color: Colors.grey ,  fontFamily: 'Montserrat'),
+                              style: const TextStyle(fontSize: 16, color: Colors.grey, fontFamily: 'Montserrat'),
                             ),
                           ],
                         ),
@@ -121,7 +138,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                                fontFamily: 'Montserrat'
+                              fontFamily: 'Montserrat',
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
