@@ -3,7 +3,7 @@ import 'package:news_zen/features/main/presentation/ai_screen/ai_screen.dart';
 import 'package:news_zen/features/main/presentation/explore_screen/explore_screen.dart';
 import 'package:news_zen/features/main/presentation/home_screen/home_screen.dart';
 import 'package:news_zen/features/main/presentation/profile_screen/profile_screen.dart';
-import 'package:news_zen/features/main/presentation/socials_screen//socials_screen.dart';
+import 'package:news_zen/features/main/presentation/socials_screen/socials_screen.dart';
 
 class MainBottomBar extends StatefulWidget {
   const MainBottomBar({super.key});
@@ -70,12 +70,19 @@ class _MainBottomBarState extends State<MainBottomBar> {
   Widget _buildBottomNavBar() {
     return Container(
       height: 65,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1), // Shadow color
+            blurRadius: 10, // Spread of the shadow
+            offset: const Offset(0, -5), // Shadow position (top)
+          ),
+        ],
       ),
       child: Row(
         children: _bottomMenuList.map((menu) {
@@ -109,14 +116,14 @@ class _MainBottomBarState extends State<MainBottomBar> {
                 isSelected ? selectedIcon : unSelectedIcon,
                 key: ValueKey(isSelected),
                 color: isSelected ? Colors.red : Colors.grey,
-                size: 24,
+                size: 28,
               ),
             ),
             if (isSelected)
               Container(
                 margin: const EdgeInsets.only(top: 4),
-                height: 4,
-                width: 4,
+                height: 6,
+                width: 6,
                 decoration: const BoxDecoration(
                   color: Colors.red,
                   shape: BoxShape.circle,
