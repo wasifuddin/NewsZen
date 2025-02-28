@@ -40,7 +40,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MMM dd, yyyy').format(widget.newsItem.dateTime);
+    String formattedDate = DateFormat('MMM dd, yyyy').format(widget.newsItem.dateTime ?? DateTime(2000, 1, 1));
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomScrollView(

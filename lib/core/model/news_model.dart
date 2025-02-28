@@ -5,9 +5,9 @@ class NewsModel {
   final String description;
   final String url;
   final String topic;
-  final DateTime dateTime;
+  final DateTime? dateTime;
 
-  NewsModel({required this.title, required this.imageurl, required this.source, required this.description, required this.url, required this.topic, required this.dateTime});
+  NewsModel({required this.title, required this.imageurl, required this.source, required this.description, required this.url, required this.topic,  this.dateTime});
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
     return NewsModel(
@@ -17,7 +17,9 @@ class NewsModel {
       description: json['description'],
       url: json['url'],
       topic: json['topic'],
-      dateTime: json['dateTime'],
+      dateTime: json['dateTime'] != null
+          ? DateTime.parse(json['dateTime'])
+          : null,
     );
   }
 }

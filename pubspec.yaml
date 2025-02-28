@@ -57,6 +57,11 @@ dependencies:
   permission_handler:
   responsive_sizer:
 
+  mongo_dart: ^0.10.3
+
+  http: ^1.2.2
+  jwt_decoder: ^2.0.1
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

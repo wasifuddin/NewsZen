@@ -9,7 +9,7 @@ class LatestNewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MMM dd, yyyy').format(newsItem.dateTime);
+    String formattedDate = DateFormat('MMM dd, yyyy').format(newsItem.dateTime ?? DateTime(2000, 1, 1));
 
     return GestureDetector(
       onTap: () {
