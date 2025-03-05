@@ -8,6 +8,8 @@ import 'package:news_zen/features/main/presentation/preferred_tags_screen/prefer
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.dart';
+import 'package:news_zen/features/weather/presentation/widgets/weather_widget.dart';
+import 'package:news_zen/features/weather/presentation/screens/detailed_weather_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -101,6 +103,21 @@ class ProfileScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
+              const SizedBox(height: 20),
+              // Weather Widget
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: WeatherWidget(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DetailedWeatherScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 30),
               // Edit Profile Button
               _buildProfileButton(
@@ -167,12 +184,12 @@ class ProfileScreen extends StatelessWidget {
 
   // Helper method to build profile buttons
   Widget _buildProfileButton(
-      BuildContext context, {
-        required IconData icon,
-        required String text,
-        required VoidCallback onPressed,
-        bool isLogout = false,
-      }) {
+    BuildContext context, {
+    required IconData icon,
+    required String text,
+    required VoidCallback onPressed,
+    bool isLogout = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50.0),
       child: SizedBox(

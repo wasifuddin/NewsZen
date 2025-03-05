@@ -11,6 +11,8 @@ import 'package:news_zen/features/main/presentation/pseudo_home_screen/bloc/news
 import 'package:news_zen/features/main/presentation/pseudo_home_screen/bloc/news_state.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../notifications_screen/notifications_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -65,24 +67,28 @@ class _HomeScreenState extends State<HomeScreen>  {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100),
         child: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: main_background_colour,
           title: Column(
             children: [
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left:0.0),
+                    padding: const EdgeInsets.only(left:8.0),
                     child: Image.asset(
                       AppAssets.image.img_med_logo,
                       width: 140,
                     ),
                   ),
+                  const Spacer(),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showNotificationScreen(context);
+                    },
                     icon: Icon(
                         Icons.notifications, color: primary_red
                     ),
@@ -205,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen>  {
                           child: Text(
                             'Browse By',
                             style: TextStyle(
-                                fontSize: 17,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                                 fontFamily: "montserrat"

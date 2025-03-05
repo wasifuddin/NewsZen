@@ -12,7 +12,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class NewsCubit extends Cubit<NewsState> {
-  int currentPage = 1;
+  int currentPage = 5;
   final int limit = 10;
   bool hasMoreData = true;
 

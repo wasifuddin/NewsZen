@@ -9,6 +9,7 @@ import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 
 import 'features/main/presentation/pseudo_home_screen/bloc/news_cubit.dart';
+import 'features/main/presentation/signupform/bloc/signup_cubit.dart';
 
 class Newszen extends StatefulWidget {
   const Newszen({super.key});
@@ -31,7 +32,7 @@ class _NewszenState extends State<Newszen> {
   }
 
   Future<void> islogin() async {
-    final String? phoneNumber = await PrefUtils.getPhoneNumber();
+    final String? phoneNumber = await PrefUtils.getEmail();
     final String? password = await PrefUtils.getPassword();
     isLoggedIn = phoneNumber != null && password != null;
     print(MediaQuery.of(context).size.height);
@@ -54,7 +55,7 @@ class _NewszenState extends State<Newszen> {
       providers: [
         BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
         BlocProvider<NewsCubit>(create: (_) => NewsCubit()),
-
+        BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
       ],
       child: ResponsiveSizer(
           builder: (context,orientation,devicetype) {

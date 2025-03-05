@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../features/main/presentation/login_form/login_form_screen.dart';
 
 class PrefUtils{
   static SharedPreferences? _sharedPreferences;
@@ -10,26 +15,66 @@ class PrefUtils{
     });
   }
 
-  Future<void> init() async{
+  static Future<void> _ensureInitialized() async {
+    if (_sharedPreferences == null) {
+      await init();
+    }
+  }
+
+  static Future<void> init() async{
     _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
-  void clearPreferencesData() async{
-    _sharedPreferences!.clear();
+  static Future<void> clearPreferencesData() async {
+    await _sharedPreferences?.clear();
   }
 
-  static Future<void> saveLoginInfo(String phoneNumber, String password) async {
-    await _sharedPreferences?.setString('phone_Number', phoneNumber);
+  static Future<void> saveEmail(String email) async {
+    await _ensureInitialized();
+    await _sharedPreferences?.setString('email', email);
+  }
+  static Future<void> saveUserName(String userName) async {
+    await _ensureInitialized();
+    await _sharedPreferences?.setString('username', userName);
+  }
+
+  /// Save password
+  static Future<void> savePassword(String password) async {
+    await _ensureInitialized();
     await _sharedPreferences?.setString('password', password);
   }
 
-  static Future<String?> getPhoneNumber() async{
-    return _sharedPreferences?.getString('phone_Number');
+  /// Save token
+  static Future<void> saveToken(String token) async {
+    await _ensureInitialized();
+    await _sharedPreferences?.setString('token', token);
   }
 
-  static Future<String?> getPassword() async{
+  /// Retrieve email
+  static Future<String?> getEmail() async {
+    await _ensureInitialized();
+    return _sharedPreferences?.getString('email');
+  }
+
+  /// Retrieve username
+  static Future<String?> getUserName() async {
+    await _ensureInitialized();
+    return _sharedPreferences?.getString('username');
+  }
+
+  /// Retrieve password
+  static Future<String?> getPassword() async {
+    await _ensureInitialized();
     return _sharedPreferences?.getString('password');
   }
 
+  void logout(BuildContext context) async {
+    //await PrefUtils.clearLoginInfo(); // Remove stored credentials
 
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginFormScreen()),
+          (route) => false, // Clear navigation stack
+    );
+  }
 }
