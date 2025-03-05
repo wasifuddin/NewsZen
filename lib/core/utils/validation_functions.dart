@@ -56,3 +56,21 @@ String? isValidPassword(String? inputString)
 
   return isInputStringValid ? null : AppStrings.errMsgPleaseEnterValidPassword;
 }
+
+String? isValidEmail(String? inputString) {
+  bool isInputStringValid = false;
+  if (!isEmptyString(inputString)) {
+    const pattern =
+        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+    final regExp = RegExp(pattern);
+    isInputStringValid = regExp.hasMatch(inputString!);
+  }
+
+  return isInputStringValid ? null : AppStrings.errMsgPleaseEnterValidEmail;
+}
+
+String? arePasswordsSame(String? password, String? confirmPassword) {
+  bool arePasswordsMatching = password == confirmPassword;
+
+  return arePasswordsMatching ? null : AppStrings.errMsgPasswordsDoNotMatch;
+}
