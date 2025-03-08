@@ -6,6 +6,8 @@ import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/core/widgets/social_post_card.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 
+import '../../../../core/widgets/custom_appbar.dart';
+
 class SocialsScreen extends StatefulWidget {
   const SocialsScreen({super.key});
 
@@ -26,36 +28,7 @@ class _SocialsScreenState extends State<SocialsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: main_background_colour,
-          title: Column(
-            children: [
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Image.asset(
-                      AppAssets.image.img_med_logo, // Your logo asset
-                      width: 140,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showNotificationScreen(context);
-                    },
-                    icon: Icon(Icons.notifications, color: primary_red),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(),
       backgroundColor: main_background_colour,
       body: SingleChildScrollView(
         child: Column(
@@ -67,10 +40,10 @@ class _SocialsScreenState extends State<SocialsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildSocialIcon('assets/icons/globe.png', 'All'), // Globe icon
-                  _buildSocialIcon('assets/icons/facebook.png', 'Facebook'),
-                  _buildSocialIcon('assets/icons/twitter.png', 'Twitter'),
-                  _buildSocialIcon('assets/icons/youtube.png', 'YouTube'),
+                  _buildSocialIcon('assets/social_icons/globe.png', 'All'), // Globe icon
+                  _buildSocialIcon('assets/social_icons/facebook.png', 'Facebook'),
+                  _buildSocialIcon('assets/social_icons/twitter.png', 'Twitter'),
+                  _buildSocialIcon('assets/social_icons/youtube.png', 'YouTube'),
                 ],
               ),
             ),
@@ -94,7 +67,7 @@ class _SocialsScreenState extends State<SocialsScreen> {
     );
   }
 
-  // Helper method to build social media icons
+  // Helper method to build social media social_icons
   Widget _buildSocialIcon(String iconPath, String platform) {
     return GestureDetector(
       onTap: () {
@@ -113,7 +86,7 @@ class _SocialsScreenState extends State<SocialsScreen> {
             color: primary_red, // Red border for selected icon
             width: 2,
           )
-              : null, // No border for unselected icons
+              : null, // No border for unselected social_icons
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

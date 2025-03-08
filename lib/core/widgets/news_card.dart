@@ -23,7 +23,6 @@ class NewsCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -83,7 +82,7 @@ class NewsCard extends StatelessWidget {
               ),
               const SizedBox(width: 8.0),
               ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(32.0),
                 child: SizedBox(
                   width: 90,
                   height: 90,

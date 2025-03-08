@@ -10,59 +10,174 @@ class SocialPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      elevation: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header with user info
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
               children: [
                 CircleAvatar(
                   backgroundImage: NetworkImage(post.imageUrl),
-                  radius: 20,
+                  radius: 24,
                 ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      post.author,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Montserrat',
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        post.author,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                        ),
                       ),
-                    ),
-                    Text(
-                      post.platform,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.black.withOpacity(0.6),
-                        fontFamily: 'Montserrat',
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Icon(
+                            _getPlatformIcon(post.platform),
+                            size: 14,
+                            color: Colors.grey[600],
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            post.platform,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    // Handle more options
+                  },
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            Text(
-              post.postContent,
-              style: const TextStyle(
-                fontSize: 14,
-                fontFamily: 'Montserrat',
+          ),
+          // Post content
+          if (post.postContent.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                post.postContent,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Montserrat',
+                  height: 1.4,
+                ),
               ),
             ),
-            const SizedBox(height: 10),
-            Image.network(
-              post.imageUrl,
+          // Post image
+          if (post.imageUrl.isNotEmpty)
+            Container(
+              margin: const EdgeInsets.only(top: 12),
               width: double.infinity,
-              height: 150,
-              fit: BoxFit.cover,
+              height: 200,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+                child: Image.network(
+                  post.imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          // Interaction buttons
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    _buildInteractionButton(
+                      icon: Icons.thumb_up_outlined,
+                      label: 'Like',
+                      onPressed: () {
+                        // Handle like
+                      },
+                    ),
+                    const SizedBox(width: 20),
+                    _buildInteractionButton(
+                      icon: Icons.thumb_down_outlined,
+                      label: 'Dislike',
+                      onPressed: () {
+                        // Handle dislike
+                      },
+                    ),
+                  ],
+                ),
+                _buildInteractionButton(
+                  icon: Icons.bookmark_border,
+                  label: 'Save',
+                  onPressed: () {
+                    // Handle save
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  IconData _getPlatformIcon(String platform) {
+    switch (platform.toLowerCase()) {
+      case 'twitter':
+        return Icons.flutter_dash; // Replace with appropriate Twitter icon
+      case 'facebook':
+        return Icons.facebook;
+      case 'instagram':
+        return Icons.camera_alt;
+      case 'linkedin':
+        return Icons.work;
+      default:
+        return Icons.public;
+    }
+  }
+
+  Widget _buildInteractionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: Colors.grey[700]),
+            const SizedBox(width: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey[700],
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),

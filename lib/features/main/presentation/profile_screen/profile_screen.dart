@@ -11,6 +11,8 @@ import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.
 import 'package:news_zen/features/weather/presentation/widgets/weather_widget.dart';
 import 'package:news_zen/features/weather/presentation/screens/detailed_weather_screen.dart';
 
+import '../../../../core/widgets/custom_appbar.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -18,36 +20,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: main_background_colour,
-          title: Column(
-            children: [
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Image.asset(
-                      AppAssets.image.img_med_logo,
-                      width: 140,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showNotificationScreen(context);
-                    },
-                    icon: Icon(Icons.notifications, color: primary_red),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -47,7 +47,7 @@ dependencies:
 
   shared_preferences:
     # The following adds the Cupertino Icons font to your application.
-    # Use with the CupertinoIcons class for iOS style icons.
+    # Use with the CupertinoIcons class for iOS style social_icons.
   mobile_scanner:
 
   flutter_native_splash:
@@ -66,7 +66,7 @@ dependencies:
   geolocator: ^11.0.0
 
   # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # Use with the CupertinoIcons class for iOS style social_icons.
   cupertino_icons:
   intl:
   url_launcher:
@@ -89,13 +89,14 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
+  # included with your application, so that you can use the social_icons in
   # the material Icons class.
   uses-material-design: true
   assets:
     - assets/images/
     - assets/fonts/
-    - assets/icons/
+    - assets/social_icons/
+    - assets/news_icons/
     - .env
 
   fonts:

@@ -8,7 +8,7 @@ import 'package:news_zen/features/main/presentation/bottom_nav/bottom_nav.dart';
 import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.dart';
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 
-import 'features/main/presentation/pseudo_home_screen/bloc/news_cubit.dart';
+import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'features/main/presentation/signupform/bloc/signup_cubit.dart';
 
 class Newszen extends StatefulWidget {

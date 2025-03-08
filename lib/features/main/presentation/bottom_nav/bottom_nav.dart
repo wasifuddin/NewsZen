@@ -5,8 +5,6 @@ import 'package:news_zen/features/main/presentation/home_screen/home_screen.dart
 import 'package:news_zen/features/main/presentation/profile_screen/profile_screen.dart';
 import 'package:news_zen/features/main/presentation/socials_screen/socials_screen.dart';
 
-import '../pseudo_home_screen/pseduo_home_screen.dart';
-
 class MainBottomBar extends StatefulWidget {
   const MainBottomBar({super.key});
 

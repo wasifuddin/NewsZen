@@ -98,7 +98,7 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
                   ),
                 )
               : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -119,7 +119,7 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
   Widget _buildCurrentWeather() {
     final current = _weatherData?['current'];
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -165,7 +165,7 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
           ),
           const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildWeatherDetail(
                 Icons.water_drop,
@@ -320,7 +320,7 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
                 ],
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     DateFormat('EEEE').format(
@@ -333,10 +333,16 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
+                  Spacer(),
+
                   Icon(
                     _getWeatherIcon(day?['weather'][0]['main'] ?? ''),
                     color: primary_red,
                   ),
+
+                  const SizedBox(width: 20,),
+
                   Text(
                     '${day?['temp']['max']?.round()}° / ${day?['temp']['min']?.round()}°',
                     style: const TextStyle(

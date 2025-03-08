@@ -10,6 +10,7 @@ import 'package:news_zen/core/widgets/news_card.dart';
 import 'package:news_zen/features/main/presentation/search_screen/search_screen.dart';
 import 'package:news_zen/features/main/presentation/search_screen/bloc/search_bloc.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
+import '../../../../core/widgets/custom_appbar.dart';
 import 'bloc/explore_bloc.dart';
 
 
@@ -21,36 +22,7 @@ class ExploreScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ExploreBloc()..add(LoadExploreDataEvent()),
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
-          child: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: main_background_colour,
-            title: Column(
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Image.asset(
-                        AppAssets.image.img_med_logo,
-                        width: 140,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showNotificationScreen(context);
-                      },
-                      icon: Icon(Icons.notifications, color: primary_red),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        appBar: const CustomAppBar(),
         backgroundColor: main_background_colour,
         body: BlocBuilder<ExploreBloc, ExploreState>(
           builder: (context, state) {

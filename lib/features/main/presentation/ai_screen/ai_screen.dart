@@ -3,6 +3,8 @@ import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 
+import '../../../../core/widgets/custom_appbar.dart';
+
 class AIChatScreen extends StatefulWidget {
   const AIChatScreen({super.key});
 
@@ -49,36 +51,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: main_background_colour,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: main_background_colour,
-          title: Column(
-            children: [
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Image.asset(
-                      AppAssets.image.img_med_logo,
-                      width: 140,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showNotificationScreen(context);
-                    },
-                    icon: Icon(Icons.notifications, color: primary_red),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom * 0.0), // Reduces push-up effect
         child: Column(

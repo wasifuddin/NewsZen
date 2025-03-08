@@ -8,16 +8,20 @@ class AppAssets{
 class _ImageConstant {
 
   static String imagePath = 'assets/images';
+  static String newsIconPath = 'assets/news_icons';
 
   String img_short_logo ='$imagePath/img_short_logo.png';
   String img_med_logo = '$imagePath/img_med_logo.png';
 
-  String img_bbc_logo = '$imagePath/img_bbc_logo.png';
-  String img_cnn_logo = '$imagePath/img_cnn_logo.png';
-  String img_independent_logo = '$imagePath/img_independent_logo.png';
-  String img_ittefaq_logo = '$imagePath/img_ittefaq_logo.png';
-  String img_kaler_kontho_logo = '$imagePath/img_kaler_kontho_logo.png';
-  String img_prothom_alo_logo = '$imagePath/img_prothom_alo_logo.png';
+  String img_prothom_alo_logo = '$newsIconPath/prothomalo.png';
+  String img_bdnews24_logo = '$newsIconPath/bdnews24.png';
+  String img_mzamin_logo = '$newsIconPath/mzamin.png';
+  String img_daily_star_logo = '$newsIconPath/dailystar.png';
+  String img_ittefaq_logo = '$newsIconPath/ittefaq.png';
+  String img_cnn_logo = '$newsIconPath/cnn.png';
+  String img_aljazeera_logo = '$newsIconPath/aljazeera.png';
+  String img_bbc_logo = '$newsIconPath/bbc.png';
+
   String img_logoname = '$imagePath/img_logoname.png';
 
   String img_dilip_kumar = '$imagePath/img_dilip_kumar.png';

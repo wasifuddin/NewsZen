@@ -12,14 +12,13 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class NewsCubit extends Cubit<NewsState> {
-  int currentPage = 5;
+  int currentPage = 1;
   final int limit = 10;
   bool hasMoreData = true;
 
   List<NewsModel> pageViewNews=[];
   List<NewsModel> horizontalNews=[];
   NewsCubit() : super(NewsInitial()){
-
     loadNews(currentPage: currentPage);
   }
 
@@ -27,24 +26,17 @@ class NewsCubit extends Cubit<NewsState> {
 
   Future<void> loadNews({required int currentPage}) async {
 
-    int page=1,limit=10;
+
     try {
       emit(NewsLoading());
 
       final urldata= datafetchurl + "?page=$currentPage";
 
-      /*HttpClient client = HttpClient();
-      client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-      HttpClientRequest request = await client.getUrl(Uri.parse(datafetchurl));
-      HttpClientResponse responsenew = await request.close();
-      print("Response status: ${responsenew.statusCode}");*/
-
-      // Send GET request to fetch news data from the backend
-      final response = await http.get(Uri.parse(datafetchurl)).timeout(Duration(seconds: 10));
+      final response = await http.get(Uri.parse(urldata)).timeout(Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         // Parse the response body
-        print('rihila');
+
         List<dynamic> data = json.decode(response.body);
 
         if (data.isEmpty) {
@@ -53,21 +45,12 @@ class NewsCubit extends Cubit<NewsState> {
         }
         else
         {
-          print('rihila');
-          print(data[0]);
           List<NewsModel> news = data.map((item) => NewsModel.fromJson(item)).toList();
-          print('rihila');
-         pageViewNews.addAll(news);
+          if(currentPage==1) pageViewNews.addAll(news);
           horizontalNews.addAll(news);
-          print('rihilaend');
-          currentPage++;
+          //currentPage++;
 
         }
-
-
-
-        // Map the data to NewsModel (you may need to adjust based on the structure)
-
 
         emit(NewsLoaded(
           pageViewNews: pageViewNews,
@@ -83,14 +66,25 @@ class NewsCubit extends Cubit<NewsState> {
   }
 
 
-  void filterPageViewNews(String topic) {
+  List<NewsModel> filterPageViewNews(String topic) {
     final filteredNews = topic == 'All'
         ? pageViewNews
         : pageViewNews.where((news) => news.topic == topic).toList();
+    if(topic=='All')
+    {
+      emit(NewsLoaded(
+        pageViewNews: filteredNews,
+        horizontalNews: (state as NewsLoaded).horizontalNews,
+      ));
+      return pageViewNews;
+    }
     emit(NewsLoaded(
       pageViewNews: filteredNews,
       horizontalNews: (state as NewsLoaded).horizontalNews,
     ));
+    return pageViewNews.where((news) => news.topic == topic).toList();;
+
+
   }
 
   List<NewsModel> filterHorizontalNews(String topic) {
@@ -108,8 +102,10 @@ class NewsCubit extends Cubit<NewsState> {
       pageViewNews: (state as NewsLoaded).pageViewNews,
       horizontalNews: filteredNews,
     ));
-    return horizontalNews.where((news) => news.topic == topic).toList();;
+    return horizontalNews.where((news) => news.topic == topic).toList();
 
     // return filteredNews;
   }
 }
+
+
