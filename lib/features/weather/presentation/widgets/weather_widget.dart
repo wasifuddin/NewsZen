@@ -106,36 +106,34 @@ class _WeatherWidgetState extends State<WeatherWidget> {
                     ),
                   )
                 : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        _getWeatherIcon(
-                            _weatherData?['weather'][0]['main'] ?? ''),
-                        size: 24,
-                        color: primary_red,
-                      ),
-                      const SizedBox(width: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _weatherData?['name'] ?? 'Unknown Location',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Icon on the left, Text on the right
+                  children: [
+                    Icon(
+                      _getWeatherIcon(_weatherData?['weather'][0]['main'] ?? ''),
+                      size: 32,
+                      color: primary_red,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          _weatherData?['name'] ?? 'Unknown Location',
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w400,
                           ),
-                          Text(
-                            '${_weatherData?['main']['temp']?.round()}°C',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                            ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          '${_weatherData?['main']['temp']?.round()}°C',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
       ),
     );
   }

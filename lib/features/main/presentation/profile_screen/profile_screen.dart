@@ -16,10 +16,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    bool isTablet = screenWidth > 600;
-
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
@@ -34,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Image.asset(
-                      AppAssets.image.img_med_logo, // Your logo asset
+                      AppAssets.image.img_med_logo,
                       width: 140,
                     ),
                   ),
@@ -50,175 +48,183 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: main_background_colour,
       body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 40),
-              // Profile Picture
-              Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Image.asset(
-                    AppAssets.image.img_user_profile, // Profile image asset
-                    width: 100, // Adjust size for profile picture
-                    height: 100,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              // User Name
-              Text(
-                "Rihila Sumayya", // Static name for the profile
-                style: TextStyle(
-                  color: Colors.black.withOpacity(1.00),
-                  fontSize: 24,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              // User Email
-              Text(
-                "rihila@iut-dhaka.edu", // Static email
-                style: TextStyle(
-                  color: Colors.black.withOpacity(0.6),
-                  fontSize: 16,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 8),
-              // User Phone Number
-              Text(
-                "123-456-7890", // Static phone number
-                style: TextStyle(
-                  color: Colors.black.withOpacity(0.6),
-                  fontSize: 16,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 20),
-              // Weather Widget
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: WeatherWidget(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DetailedWeatherScreen(),
+        child: Column(
+          children: [
+            // Profile Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  // Profile Picture and Info
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage:
+                            AssetImage(AppAssets.image.img_user_profile),
                       ),
-                    );
-                  },
-                ),
+                      //const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text(
+                              'Rihila Sumayya',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'rihila@iut-dhaka.edu',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 20,)
+                    ],
+                  ),
+                  // const SizedBox(height: 20),
+                  // // Edit Profile Button
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => const EditProfileScreen(),
+                  //         ),
+                  //       );
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: const Color(0xFFD32F2F),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(12),
+                  //       ),
+                  //       padding: const EdgeInsets.symmetric(vertical: 16),
+                  //     ),
+                  //     child: const Text('Edit Profile'),
+                  //   ),
+                  // ),
+                ],
               ),
-              const SizedBox(height: 30),
-              // Edit Profile Button
-              _buildProfileButton(
-                context,
-                icon: Icons.edit,
-                text: "Edit Profile",
-                onPressed: () {
+            ),
+            const SizedBox(height: 20),
+            // Weather Widget
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: WeatherWidget(
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EditProfileScreen(),
+                      builder: (context) => const DetailedWeatherScreen(),
                     ),
                   );
                 },
               ),
-              const SizedBox(height: 20),
-              // Saved Button
-              _buildProfileButton(
-                context,
-                icon: Icons.bookmark,
-                text: "Saved",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SavedScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              // Preferred Tags Button
-              _buildProfileButton(
-                context,
-                icon: Icons.tag,
-                text: "Preferred Tags",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PreferredTagsScreen(),
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              // Logout Button
-              _buildProfileButton(
-                context,
-                icon: Icons.logout,
-                text: "Logout",
-                onPressed: () {
-                  BlocProvider.of<LoginCubit>(context).logout(context);
-                },
-                isLogout: true,
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            ),
+            const SizedBox(height: 20),
+            // Menu Items
+            _buildMenuItem(
+              icon: Icons.edit,
+              title: 'Edit Profile',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EditProfileScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.bookmark,
+              title: 'Saved',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SavedScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.tag,
+              title: 'Preferred Tags',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PreferredTagsScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildMenuItem(
+              icon: Icons.logout,
+              title: 'Logout',
+              isLogout: true,
+              onTap: () {
+                BlocProvider.of<LoginCubit>(context).logout(context);
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
-  // Helper method to build profile buttons
-  Widget _buildProfileButton(
-    BuildContext context, {
+  Widget _buildMenuItem({
     required IconData icon,
-    required String text,
-    required VoidCallback onPressed,
+    required String title,
+    required VoidCallback onTap,
     bool isLogout = false,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0),
-      child: SizedBox(
-        width: double.infinity,
-        height: 55,
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: isLogout ? Colors.red : Colors.grey,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey[200]!,
+              width: 1,
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: Colors.white),
-              const SizedBox(width: 10),
-              Text(
-                text,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: isLogout ? primary_red : Colors.black54,
+              size: 24,
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: isLogout ? primary_red : Colors.black87,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            ],
-          ),
+            ),
+            const Icon(
+              Icons.chevron_right,
+              color: Colors.grey,
+              size: 24,
+            ),
+          ],
         ),
       ),
     );

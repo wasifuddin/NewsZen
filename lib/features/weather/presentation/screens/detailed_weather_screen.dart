@@ -3,6 +3,8 @@ import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/features/weather/data/weather_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/utils/app_assets.dart';
+
 class DetailedWeatherScreen extends StatefulWidget {
   const DetailedWeatherScreen({Key? key}) : super(key: key);
 
@@ -55,9 +57,36 @@ class _DetailedWeatherScreenState extends State<DetailedWeatherScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detailed Weather'),
-        backgroundColor: main_background_colour,
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: main_background_colour,
+          title: Column(
+            children: [
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Image.asset(
+                      AppAssets.image.img_med_logo, // Your logo asset
+                      width: 140,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Go back to the previous screen
+                    },
+                    icon: Icon(Icons.close, color: primary_red),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
