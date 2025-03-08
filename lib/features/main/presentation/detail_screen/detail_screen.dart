@@ -40,7 +40,8 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MMM dd, yyyy').format(widget.newsItem.dateTime ?? DateTime(2000, 1, 1));
+    String formattedDate = DateFormat('MMM dd, yyyy')
+        .format(widget.newsItem.dateTime ?? DateTime(2000, 1, 1));
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: CustomScrollView(
@@ -89,24 +90,47 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                       ),
                     ),
                   ),
+
+                  // Topic and Save button
                   Positioned(
                     top: 36,
                     right: 20,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        widget.newsItem.topic,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat',
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            widget.newsItem.topic,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Montserrat',
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.bookmark_border,
+                                color: Colors.black),
+                            onPressed: () {
+                              // Save functionality will be added later
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Positioned(
@@ -119,14 +143,21 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                           children: [
                             Text(
                               '${widget.newsItem.source} | ',
-                              style: const TextStyle(fontSize: 16, color: Colors.grey, fontFamily: 'Montserrat'),
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                  fontFamily: 'Montserrat'),
                             ),
                             Text(
                               formattedDate,
-                              style: const TextStyle(fontSize: 16, color: Colors.grey, fontFamily: 'Montserrat'),
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey,
+                                  fontFamily: 'Montserrat'),
                             ),
                           ],
                         ),
+                        // Title
                         const SizedBox(height: 5),
                         Container(
                           constraints: BoxConstraints(
@@ -143,6 +174,31 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 4,
                           ),
+                        ),
+                        const SizedBox(height: 8),
+                        // Like and Dislike buttons
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.thumb_up_outlined,
+                                  color: Colors.white),
+                              onPressed: () {
+                                // Handle like functionality
+                              },
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                            const SizedBox(width: 12),
+                            IconButton(
+                              icon: const Icon(Icons.thumb_down_outlined,
+                                  color: Colors.white),
+                              onPressed: () {
+                                // Handle dislike functionality
+                              },
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -167,13 +223,15 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     ),
                   ],
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.newsItem.description,
-                      style: const TextStyle(fontSize: 16, fontFamily: 'Montserrat'),
+                      style: const TextStyle(
+                          fontSize: 16, fontFamily: 'Montserrat'),
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
@@ -184,7 +242,10 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                         backgroundColor: primary_red,
                         foregroundColor: Colors.white,
                       ),
-                      child: const Text('Go to Website', style: TextStyle( fontFamily: 'Montserrat'),),
+                      child: const Text(
+                        'Go to Website',
+                        style: TextStyle(fontFamily: 'Montserrat'),
+                      ),
                     ),
                   ],
                 ),
@@ -199,10 +260,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
   void _openNewsUrl(BuildContext context, String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication); // Use external application mode
+      await launchUrl(uri,
+          mode:
+              LaunchMode.externalApplication); // Use external application mode
     } else {
       throw 'Could not launch $url';
     }
   }
-
 }
