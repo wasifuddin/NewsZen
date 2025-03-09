@@ -5,7 +5,7 @@ import 'package:news_zen/core/localization/app_strings.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/core/utils/validation_functions.dart';
-import 'package:news_zen/core/widgets/custome_text_form_field.dart';
+import 'package:news_zen/core/widgets/custom_text_form_field.dart';
 import 'package:news_zen/features/main/presentation/signupform/bloc/signup_cubit.dart';
 
 class SignupFormScreen extends StatefulWidget {
@@ -16,11 +16,9 @@ class SignupFormScreen extends StatefulWidget {
 }
 
 class _SignupFormScreenState extends State<SignupFormScreen> {
-
   late final SignupCubit _signupCubit;
 
-  void _onsignupClick()
-  {
+  void _onsignupClick() {
     _signupCubit.validateInput(context);
   }
 
@@ -46,7 +44,7 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                   height: 90,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right:50.0),
+                  padding: const EdgeInsets.only(right: 50.0),
                   child: Image.asset(
                     AppAssets.image.img_logoname,
                   ),
@@ -64,35 +62,33 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23.0,vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 23.0, vertical: 18),
                   child: CustomTextFormField(
                     controller: _signupCubit.emailController,
-                    validator: (value)
-                    {
+                    validator: (value) {
                       return isValidEmail(value);
                     },
                     hintText: AppStrings.lblEmail,
-
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23.0,vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 23.0, vertical: 18),
                   child: CustomTextFormField(
                     controller: _signupCubit.usernameController,
-                    validator: (value)
-                    {
+                    validator: (value) {
                       return isEmptyErrorMessage(value);
                     },
                     hintText: AppStrings.lblUsername,
-
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23.0,vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 23.0, vertical: 18),
                   child: CustomTextFormField(
                     controller: _signupCubit.passwordController,
-                    validator: (value)
-                    {
+                    validator: (value) {
                       return isValidPassword(value);
                     },
                     hintText: AppStrings.lblPassword,
@@ -100,30 +96,31 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23.0,vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 23.0, vertical: 18),
                   child: CustomTextFormField(
                     controller: _signupCubit.confirmpasswordController,
-                    validator: (value)
-                    {
-                      return arePasswordsSame(_signupCubit.passwordController.text.trim(),value);
+                    validator: (value) {
+                      return arePasswordsSame(
+                          _signupCubit.passwordController.text.trim(), value);
                     },
                     hintText: AppStrings.lblConfirmPassword,
                     obscureTextOn: true,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 18),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
                   child: SizedBox(
                     width: double.infinity,
-                    height:55,
+                    height: 55,
                     child: ElevatedButton(
                         onPressed: _onsignupClick,
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primary_red,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
-                            )
-                        ),
+                            )),
                         child: const Text(
                           AppStrings.lblRegister,
                           style: TextStyle(
@@ -144,11 +141,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
               ],
             ),
           ),
-
         ),
       ),
     );

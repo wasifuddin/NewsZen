@@ -2,11 +2,10 @@ import 'package:news_zen/core/localization/app_strings.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/core/utils/validation_functions.dart';
-import 'package:news_zen/core/widgets/custome_text_form_field.dart';
+import 'package:news_zen/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/login_cubit.dart';
-
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -18,15 +17,14 @@ class LoginFormScreen extends StatefulWidget {
 class _LoginFormState extends State<LoginFormScreen> {
   late final LoginCubit _loginCubit;
 
-  void _onLoginClick()
-  {
+  void _onLoginClick() {
     _loginCubit.validateInput(context);
   }
 
-  void _onSignUpClick()
-  {
+  void _onSignUpClick() {
     _loginCubit.signup(context);
   }
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +33,6 @@ class _LoginFormState extends State<LoginFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
 
     bool isTablet = screenWidth > 600;
@@ -43,14 +40,15 @@ class _LoginFormState extends State<LoginFormScreen> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: main_background_colour,
-        body: isTablet ? mobileScreen(context, _loginCubit, _onLoginClick, _onSignUpClick)
-            : mobileScreen(context, _loginCubit, _onLoginClick, _onSignUpClick)
-    );
+        body: isTablet
+            ? mobileScreen(context, _loginCubit, _onLoginClick, _onSignUpClick)
+            : mobileScreen(
+                context, _loginCubit, _onLoginClick, _onSignUpClick));
   }
 }
 
-Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onLoginClick, Function() onSignupClick)
-{
+Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
+    Function() onLoginClick, Function() onSignupClick) {
   return SingleChildScrollView(
     child: Form(
       key: loginCubit.formkey,
@@ -59,8 +57,7 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-                height: 90),
+            SizedBox(height: 90),
             Padding(
               padding: EdgeInsets.only(right: 50.0),
               child: Image.asset(
@@ -76,50 +73,42 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
                 fontWeight: FontWeight.w200,
               ),
             ),
-            SizedBox(
-                height: 45),
-
+            SizedBox(height: 45),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 18),
               child: CustomTextFormField(
                 controller: loginCubit.EmailController,
-                validator: (value)
-                {
+                validator: (value) {
                   return isValidEmail(value);
                 },
                 hintText: AppStrings.lblEmail,
               ),
             ),
-
-            SizedBox(
-                height: 15),
+            SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.only(left: 23,right: 23, bottom: 23),
+              padding: const EdgeInsets.only(left: 23, right: 23, bottom: 23),
               child: CustomTextFormField(
                 controller: loginCubit.passwordController,
-                validator: (value)
-                {
+                validator: (value) {
                   return isValidPassword(value);
                 },
                 hintText: AppStrings.lblPassword,
                 obscureTextOn: true,
               ),
             ),
-            SizedBox(
-                height: 35),
+            SizedBox(height: 35),
             Padding(
-              padding: const EdgeInsets.only(right: 50,left:50),
+              padding: const EdgeInsets.only(right: 50, left: 50),
               child: SizedBox(
                 width: double.infinity,
-                height:55,
+                height: 55,
                 child: ElevatedButton(
                     onPressed: onLoginClick,
                     style: ElevatedButton.styleFrom(
                         backgroundColor: primary_red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                        )
-                    ),
+                        )),
                     child: const Text(
                       AppStrings.lblLogin,
                       style: TextStyle(
@@ -135,18 +124,17 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
               height: 35,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 50,left:50),
+              padding: const EdgeInsets.only(right: 50, left: 50),
               child: SizedBox(
                 width: double.infinity,
-                height:55,
+                height: 55,
                 child: ElevatedButton(
                     onPressed: onSignupClick,
                     style: ElevatedButton.styleFrom(
                         backgroundColor: primary_red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                        )
-                    ),
+                        )),
                     child: const Text(
                       AppStrings.lblRegister,
                       style: TextStyle(
@@ -162,8 +150,8 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit , Function() onL
               padding: const EdgeInsets.all(20.0),
               child: Align(
                 alignment: Alignment.center,
-                child:  const Text(
-                  AppStrings.lblFotgetPassword,
+                child: const Text(
+                  AppStrings.lblForgotPassword,
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,

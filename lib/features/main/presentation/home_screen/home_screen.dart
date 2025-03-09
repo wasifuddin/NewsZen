@@ -10,6 +10,7 @@ import 'package:news_zen/core/widgets/horizontal_news_card.dart';
 import 'package:news_zen/core/widgets/news_card.dart';
 import 'package:news_zen/features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'package:news_zen/features/main/presentation/home_screen/bloc/news_state.dart';
+import 'package:news_zen/features/main/presentation/news_sites_screen/news_sites_screen.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -188,7 +189,12 @@ class _HomeScreenState extends State<HomeScreen>  {
                               // "See All" text aligned to the right and clickable
                               GestureDetector(
                                 onTap: () {
-                                  // Handle the "See All" click event
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const NewsSitesScreen(),
+                                    ),
+                                  );
                                   print('See All clicked');
                                 },
                                 child: Text(
@@ -216,6 +222,7 @@ class _HomeScreenState extends State<HomeScreen>  {
                               NewsSourceCircle(imagePath: AppAssets.image.img_aljazeera_logo),
                               NewsSourceCircle(imagePath: AppAssets.image.img_prothom_alo_logo),
                               NewsSourceCircle(imagePath: AppAssets.image.img_daily_star_logo),
+                              NewsSourceCircle(imagePath: AppAssets.image.img_bdnews24_logo),
                               NewsSourceCircle(imagePath: AppAssets.image.img_ittefaq_logo),
                               NewsSourceCircle(imagePath: AppAssets.image.img_mzamin_logo),
 
@@ -539,11 +546,7 @@ class NewsSourceCircle extends StatelessWidget{
 
       ),
     );
-
-
   }
-
-
 }
 
 
