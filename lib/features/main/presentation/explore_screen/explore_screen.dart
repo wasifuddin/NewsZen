@@ -170,57 +170,57 @@ class ExploreScreen extends StatelessWidget {
             ),
           ),
 
-          // Latest News Section
-          Padding(
-            padding: const EdgeInsets.all(22.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Latest News',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontFamily: "Montserrat",
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    // Add your onClick action here
-                  },
-                  child: const Text(
-                    'View All',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SizedBox(
-              height: 200,
-              child: PageView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: mockNewsData.length,
-                itemBuilder: (context, index) {
-                  final newsItem = mockNewsData[index];
-                  return HorizontalNewsCard(newsItem: newsItem);
-                },
-                pageSnapping: true,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
+          // // Latest News Section
+          // Padding(
+          //   padding: const EdgeInsets.all(22.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       const Align(
+          //         alignment: Alignment.centerLeft,
+          //         child: Text(
+          //           'Latest News',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.w600,
+          //             color: Colors.black,
+          //             fontFamily: "Montserrat",
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           // Add your onClick action here
+          //         },
+          //         child: const Text(
+          //           'View All',
+          //           style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 14,
+          //             fontFamily: 'Montserrat',
+          //             fontWeight: FontWeight.w400,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          //   child: SizedBox(
+          //     height: 200,
+          //     child: PageView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: mockNewsData.length,
+          //       itemBuilder: (context, index) {
+          //         final newsItem = mockNewsData[index];
+          //         return HorizontalNewsCard(newsItem: newsItem);
+          //       },
+          //       pageSnapping: true,
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 20),
 
           // Recommended Section
           Padding(

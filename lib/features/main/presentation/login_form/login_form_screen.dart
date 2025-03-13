@@ -57,9 +57,9 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 90),
+            SizedBox(height: 80),
             Padding(
-              padding: EdgeInsets.only(right: 50.0),
+              padding: EdgeInsets.symmetric(horizontal: 80, vertical: 80),
               child: Image.asset(
                 AppAssets.image.img_logoname,
               ),
@@ -70,12 +70,12 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
                 color: Colors.black.withOpacity(1.00),
                 fontSize: 14,
                 fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: 45),
+            SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               child: CustomTextFormField(
                 controller: loginCubit.EmailController,
                 validator: (value) {
@@ -84,9 +84,9 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
                 hintText: AppStrings.lblEmail,
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.only(left: 23, right: 23, bottom: 23),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               child: CustomTextFormField(
                 controller: loginCubit.passwordController,
                 validator: (value) {
@@ -96,7 +96,7 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
                 obscureTextOn: true,
               ),
             ),
-            SizedBox(height: 35),
+            SizedBox(height: 32),
             Padding(
               padding: const EdgeInsets.only(right: 50, left: 50),
               child: SizedBox(
@@ -121,7 +121,7 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
               ),
             ),
             SizedBox(
-              height: 35,
+              height: 16,
             ),
             Padding(
               padding: const EdgeInsets.only(right: 50, left: 50),
@@ -157,6 +157,7 @@ Widget mobileScreen(BuildContext context, LoginCubit loginCubit,
                     color: Colors.black,
                     fontFamily: 'Montserrat',
                     fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),

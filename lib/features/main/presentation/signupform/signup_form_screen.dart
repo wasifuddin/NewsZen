@@ -22,6 +22,10 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
     _signupCubit.validateInput(context);
   }
 
+  void _onAlreadyHaveAccountClick() {
+    _signupCubit.login(context);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -40,11 +44,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
             child: Column(
               //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 90,
-                ),
+                SizedBox(height: 80),
                 Padding(
-                  padding: const EdgeInsets.only(right: 50.0),
+                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 80),
                   child: Image.asset(
                     AppAssets.image.img_logoname,
                   ),
@@ -55,15 +57,14 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     color: Colors.black.withOpacity(1.00),
                     fontSize: 14,
                     fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 16,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 23.0, vertical: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: CustomTextFormField(
                     controller: _signupCubit.emailController,
                     validator: (value) {
@@ -72,9 +73,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     hintText: AppStrings.lblEmail,
                   ),
                 ),
+                SizedBox(height: 16),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 23.0, vertical: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: CustomTextFormField(
                     controller: _signupCubit.usernameController,
                     validator: (value) {
@@ -83,9 +84,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     hintText: AppStrings.lblUsername,
                   ),
                 ),
+                SizedBox(height: 16),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 23.0, vertical: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: CustomTextFormField(
                     controller: _signupCubit.passwordController,
                     validator: (value) {
@@ -95,9 +96,9 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     obscureTextOn: true,
                   ),
                 ),
+                SizedBox(height: 16),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 23.0, vertical: 18),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: CustomTextFormField(
                     controller: _signupCubit.confirmpasswordController,
                     validator: (value) {
@@ -108,6 +109,7 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                     obscureTextOn: true,
                   ),
                 ),
+                SizedBox(height: 16),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
@@ -132,13 +134,17 @@ class _SignupFormScreenState extends State<SignupFormScreen> {
                         )),
                   ),
                 ),
-                Text(
-                  AppStrings.lblAlreadyHaveanAccount,
-                  style: TextStyle(
-                    color: Colors.black.withOpacity(1.00),
-                    fontSize: 14,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: _onAlreadyHaveAccountClick,
+                  child: Text(
+                    AppStrings.lblAlreadyHaveanAccount,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(1.00),
+                      fontSize: 14,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
