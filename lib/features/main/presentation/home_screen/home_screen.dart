@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen>  {
 
   late final NewsCubit _newsCubit;
   String selectedTopicPageview = 'All';
-  final List<String> topicsPageview = ['All', 'World', 'Sports', 'Technology', 'Health', 'Space', 'Food', 'Politics', 'Automotive'];
+  final List<String> topicsPageview = ['all', 'national', 'world', 'politics', 'sports', 'business', 'finance', 'technology', 'entertainment'];
   String selectedTopicListView = 'All';
   final List<String> topicsListview = ['All', 'Trending', 'Recomended', 'Newsest', 'MostViewed', 'TopRated', 'EditorsPick'];
   final ScrollController _scrollController = ScrollController();
