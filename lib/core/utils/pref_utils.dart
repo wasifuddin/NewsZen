@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../features/main/presentation/login_form/login_form_screen.dart';
 

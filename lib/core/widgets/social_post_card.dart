@@ -23,10 +23,10 @@ class SocialPostCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(post.imageUrl),
-                  radius: 24,
-                ),
+                // CircleAvatar(
+                //   backgroundImage: NetworkImage(post.imageUrl),
+                //   radius: 24,
+                // ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -85,22 +85,22 @@ class SocialPostCard extends StatelessWidget {
               ),
             ),
           // Post image
-          if (post.imageUrl.isNotEmpty)
-            Container(
-              margin: const EdgeInsets.only(top: 12),
-              width: double.infinity,
-              height: 200,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(16),
-                ),
-                child: Image.network(
-                  post.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+          // if (post.imageUrl.isNotEmpty)
+          //   Container(
+          //     margin: const EdgeInsets.only(top: 12),
+          //     width: double.infinity,
+          //     height: 200,
+          //     child: ClipRRect(
+          //       borderRadius: const BorderRadius.only(
+          //         bottomLeft: Radius.circular(16),
+          //         bottomRight: Radius.circular(16),
+          //       ),
+          //       // child: Image.network(
+          //       //   post.imageUrl,
+          //       //   fit: BoxFit.cover,
+          //       // ),
+          //     ),
+          //   ),
           // Interaction buttons
           Padding(
             padding: const EdgeInsets.all(16.0),

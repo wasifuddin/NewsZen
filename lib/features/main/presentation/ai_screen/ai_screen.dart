@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:news_zen/core/theme/colors.dart';
 import 'package:news_zen/core/utils/app_assets.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 
 import '../../../../core/widgets/custom_appbar.dart';
-
+import 'package:http/http.dart' as http;
 class AIChatScreen extends StatefulWidget {
   const AIChatScreen({super.key});
 
@@ -34,7 +36,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   }
 
   // Simulate receiving a response from the chatbot
-  Future<String> _getChatbotResponse(String message) async {
+  /* Future<String> _getChatbotResponse(String message) async {
     await Future.delayed(const Duration(seconds: 1));
 
     // Simple chatbot logic
@@ -44,6 +46,33 @@ class _AIChatScreenState extends State<AIChatScreen> {
       return 'Here are the latest news updates...';
     } else {
       return 'I\'m sorry, I didn\'t understand that. Can you please rephrase?';
+    }
+  }*/
+
+  Future<String> _getChatbotResponse(String message) async {
+    const String apiUrl = "http://10.0.2.2:5000/predict"; // Replace with your server URL
+    var regBody = {
+      "query":message,
+
+
+    };
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"query": message}),
+      );
+      print('comes here');
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        print(responseData['rag_response']);
+        return responseData["rag_response"] ?? "No response from chatbot.";
+      } else {
+        return "Error: ${response.statusCode}, ${response.body}";
+      }
+    } catch (e) {
+      return "Failed to connect to chatbot: $e";
     }
   }
 

@@ -10,10 +10,15 @@ class NewsCard extends StatelessWidget {
 
   const NewsCard({required this.newsItem, super.key});
 
+  String formatDate(DateTime? date) {
+    if (date == null) return "Unknown date";
+    return DateFormat("MMM dd, yyyy").format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    String formattedDate = DateFormat('MMM d, yyyy').format(newsItem.dateTime ?? DateTime(2000, 1, 1));
+    // Format the date with a fallback if newsItem.dateTime is null
+    //String formattedDate = DateFormat('MMM dd, yyyy').format(newsItem.dateTime ?? DateTime(2000, 1, 1));
 
     return Card(
       elevation: 0,
@@ -46,9 +51,9 @@ class NewsCard extends StatelessWidget {
                     Text(
                       newsItem.title,
                       style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "montserrat"
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "montserrat"
                       ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
@@ -63,14 +68,12 @@ class NewsCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
-
-
                         ),
                         const SizedBox(width: 4.0),
                         const Text('|'),
                         const SizedBox(width: 4.0),
                         Text(
-                          formattedDate,
+                          formatDate(newsItem.dateTime), // Use the formatted date here
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
