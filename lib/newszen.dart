@@ -19,7 +19,6 @@ class Newszen extends StatefulWidget {
 }
 
 class _NewszenState extends State<Newszen> {
-
   bool isLoggedIn = false;
   bool isDataFetch = false;
 
@@ -27,8 +26,6 @@ class _NewszenState extends State<Newszen> {
   void initState() {
     islogin();
     super.initState();
-
-
   }
 
   Future<void> islogin() async {
@@ -41,10 +38,9 @@ class _NewszenState extends State<Newszen> {
     print(password);
     isDataFetch = true;
     FlutterNativeSplash.remove();
-    setState(() {
-
-    });
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     /*return MaterialApp(
@@ -57,17 +53,16 @@ class _NewszenState extends State<Newszen> {
         BlocProvider<NewsCubit>(create: (_) => NewsCubit()),
         BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
       ],
-      child: ResponsiveSizer(
-          builder: (context,orientation,devicetype) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: isDataFetch
-                  ? isLoggedIn ? MainBottomBar() : LoginFormScreen()
-                  : CircularProgressIndicator(),
-
-            );
-          }
-      ),
+      child: ResponsiveSizer(builder: (context, orientation, devicetype) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: isDataFetch
+              ? isLoggedIn
+                  ? MainBottomBar()
+                  : LoginFormScreen()
+              : CircularProgressIndicator(),
+        );
+      }),
     );
   }
 }

@@ -15,55 +15,48 @@ import '../login_form_screen.dart';
 
 part 'login_state.dart';
 
-class LoginCubit extends Cubit<LoginState>
-{
-  LoginCubit() : super (LoginState());
+class LoginCubit extends Cubit<LoginState> {
+  LoginCubit() : super(LoginState());
 
-  final GlobalKey<FormState> formkey =GlobalKey<FormState>();
-
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   final TextEditingController EmailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void validateInput(BuildContext context)
-  {
-    if(formkey.currentState!.validate())
-    {
+  void validateInput(BuildContext context) {
+    if (formkey.currentState!.validate()) {
       _login(context);
     }
   }
 
-  Future<void> _login(BuildContext context) async{
+  Future<void> _login(BuildContext context) async {
     await PrefUtils.init();
 
     String email = EmailController.text.trim();
     String password = passwordController.text.trim();
 
-
     var regBody = {
-      "email":email,
-      "password":password,
-
+      "email": email,
+      "password": password,
     };
 
     var response = await http.post(
       Uri.parse(loginurl),
-      headers: {"Content-type":"application/json"},
+      headers: {"Content-type": "application/json"},
       body: jsonEncode(regBody),
     );
     print('apiworked');
 
     var jsonResponse = jsonDecode(response.body);
 
-    if(jsonResponse['status'])
-    {
+    if (jsonResponse['status']) {
       late String dbemail;
       late String username;
       var mytoken = jsonResponse['token'];
 
       await PrefUtils.saveToken(mytoken);
 
-      Map<String,dynamic> jwtDecodedToken = JwtDecoder.decode(mytoken);
+      Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(mytoken);
 
       dbemail = jwtDecodedToken['email'];
       username = jwtDecodedToken['username'];
@@ -72,19 +65,14 @@ class LoginCubit extends Cubit<LoginState>
       await PrefUtils.saveUserName(username);
       await PrefUtils.savePassword(password);
 
-
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => MainBottomBar()),
       );
     }
-
-
-
   }
 
-  void signup(BuildContext context)
-  {
+  void signup(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignupFormScreen()),
@@ -97,9 +85,7 @@ class LoginCubit extends Cubit<LoginState>
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginFormScreen()),
-          (route) => false, // Clear navigation stack
+      (route) => false, // Clear navigation stack
     );
   }
 }
-
-

@@ -5,3 +5,5 @@ final registration = url + "registration";
 final loginurl = url + "login";
 
 final datafetchurl = url + "data";
+
+final searchurl = url + "search";
