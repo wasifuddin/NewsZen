@@ -198,27 +198,27 @@ class _HomeScreenState extends State<HomeScreen>  {
                                 ),
                               ),
                               // "See All" text aligned to the right and clickable
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const NewsSitesScreen(selectedSource: '',),
-                                    ),
-                                  );
-                                  print('See All clicked');
-                                },
-                                child: Text(
-                                  'See All',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.underline,
-                                    fontFamily: "montserrat",
-                                  ),
-                                ),
-                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => const NewsSitesScreen(selectedSource: '',),
+                              //       ),
+                              //     );
+                              //     print('See All clicked');
+                              //   },
+                              //   child: Text(
+                              //     'See All',
+                              //     style: TextStyle(
+                              //       fontSize: 16,
+                              //       fontWeight: FontWeight.w600,
+                              //       color: Colors.grey,
+                              //       decoration: TextDecoration.underline,
+                              //       fontFamily: "montserrat",
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
