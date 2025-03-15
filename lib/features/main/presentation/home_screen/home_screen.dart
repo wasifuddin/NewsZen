@@ -30,6 +30,16 @@ class _HomeScreenState extends State<HomeScreen>  {
   final List<String> topicsPageview = ['all', 'national', 'world', 'politics', 'sports', 'business', 'finance', 'technology', 'entertainment'];
   String selectedTopicListView = 'all';
   final List<String> topicsListview = ['all', 'Trending', 'Popular', 'Latest', 'MostViewed'];
+  final List<Map<String, String>> newsSources = [
+    //{'name': 'BBC', 'imagePath': AppAssets.image.img_bbc_logo},
+    {'name': 'CNN', 'imagePath': AppAssets.image.img_cnn_logo},
+    {'name': 'Al Zazeera', 'imagePath': AppAssets.image.img_aljazeera_logo},
+    //{'name': 'Prothom Alo', 'imagePath': AppAssets.image.img_prothom_alo_logo},
+    {'name': 'The Daily Star', 'imagePath': AppAssets.image.img_daily_star_logo},
+    {'name': 'bdnews24', 'imagePath': AppAssets.image.img_bdnews24_logo},
+    {'name': 'The Daily Ittefaq', 'imagePath': AppAssets.image.img_ittefaq_logo},
+    //{'name': 'mzamin', 'imagePath': AppAssets.image.img_mzamin_logo},
+  ];
   final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
@@ -196,47 +206,49 @@ class _HomeScreenState extends State<HomeScreen>  {
                                 ),
                               ),
                               // "See All" text aligned to the right and clickable
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const NewsSitesScreen(),
-                                    ),
-                                  );
-                                  print('See All clicked');
-                                },
-                                child: Text(
-                                  'See All',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.grey,
-                                    decoration: TextDecoration.underline,
-                                    fontFamily: "montserrat",
-                                  ),
-                                ),
-                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(
+                              //         builder: (context) => const NewsSitesScreen(selectedSource: '',),
+                              //       ),
+                              //     );
+                              //     print('See All clicked');
+                              //   },
+                              //   child: Text(
+                              //     'See All',
+                              //     style: TextStyle(
+                              //       fontSize: 16,
+                              //       fontWeight: FontWeight.w600,
+                              //       color: Colors.grey,
+                              //       decoration: TextDecoration.underline,
+                              //       fontFamily: "montserrat",
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: SingleChildScrollView
-
-                            (scrollDirection: Axis.horizontal,child:Row(
-                            children: [
-                              NewsSourceCircle(imagePath: AppAssets.image.img_bbc_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_cnn_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_aljazeera_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_prothom_alo_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_daily_star_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_bdnews24_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_ittefaq_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_mzamin_logo),
-
-                            ],
-                          )),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: newsSources.map((source) {
+                                return NewsSourceCircle(
+                                  name: source['name']!,
+                                  imagePath: source['imagePath']!,
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewsSitesScreen(selectedSource: source['name']!,),
+                                    ),
+                                  )
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
                         SizedBox(height: 10,),
                         const Padding(
@@ -512,4 +524,46 @@ class _HomeScreenState extends State<HomeScreen>  {
   }
 }
 
+class NewsSourceCircle extends StatelessWidget {
+  final String imagePath;
+  final String name;
+  final VoidCallback onTap;
 
+  const NewsSourceCircle({
+    required this.name,
+    required this.imagePath,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.red.withOpacity(0.2),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
+              width: 60,
+              height: 60,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

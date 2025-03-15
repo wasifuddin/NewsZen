@@ -40,6 +40,8 @@ class _SocialsScreenState extends State<SocialsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  _buildSocialIcon('assets/social_icons/globe.png', 'All'), // Globe icon
+                  _buildSocialIcon('assets/social_icons/facebook.png', 'Facebook'),
                   _buildSocialIcon('assets/social_icons/twitter.png', 'Twitter'),
                   _buildSocialIcon('assets/social_icons/youtube.png', 'YouTube'),
                 ],

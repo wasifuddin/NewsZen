@@ -39,11 +39,11 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
       });
   }
 
-  void _onLikeClick(String newString) async {
-    await _detailCubit.validateLikeIcon(context, newString);
+  void _onLikeClick(String id,String category, String source) async {
+    await _detailCubit.validateLikeIcon(context, id,category,source);
   }
-  void _onSaveClick(String newString) async {
-    await _detailCubit.validateSaveIcon(context, newString);
+  void _onSaveClick(String id,String category, String source) async {
+    await _detailCubit.validateSaveIcon(context, id,category,source);
   }
 
   @override
@@ -163,7 +163,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                               children: [
                                 IconButton(
                                   onPressed: () async =>
-                                      _onLikeClick(newsItem.id),
+                                      _onLikeClick(newsItem.id,newsItem.topic,newsItem.source),
                                   icon: Icon(
                                     state.isLiked
                                         ? Icons.favorite
@@ -175,7 +175,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                                 ),
                                 IconButton(
                                   onPressed: ()  async =>
-                                      _onSaveClick(newsItem.id),
+                                      _onSaveClick(newsItem.id,newsItem.topic,newsItem.source),
                                   icon: Icon(
                                     Icons.save,
                                     color: state.isSaved

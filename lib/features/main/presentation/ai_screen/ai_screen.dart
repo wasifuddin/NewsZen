@@ -36,7 +36,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   }
 
   // Simulate receiving a response from the chatbot
- /* Future<String> _getChatbotResponse(String message) async {
+  /* Future<String> _getChatbotResponse(String message) async {
     await Future.delayed(const Duration(seconds: 1));
 
     // Simple chatbot logic

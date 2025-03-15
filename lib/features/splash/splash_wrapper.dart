@@ -55,9 +55,11 @@ class _SplashWrapperState extends State<SplashWrapper>
             onLoaded: (composition) {
               // Set the AnimationController duration to match the Lottie animation duration
               _controller.duration = composition.duration;
-              _controller.forward(from: 0.0); // Start the animation from the beginning
+              _controller.forward(
+                  from: 0.0); // Start the animation from the beginning
             },
-            controller: _controller, // Link the controller to the Lottie animation
+            controller:
+                _controller, // Link the controller to the Lottie animation
           ),
         ),
       ),

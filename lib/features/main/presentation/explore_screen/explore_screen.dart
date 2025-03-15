@@ -13,7 +13,6 @@ import 'package:news_zen/features/main/presentation/notifications_screen/notific
 import '../../../../core/widgets/custom_appbar.dart';
 import 'bloc/explore_bloc.dart';
 
-
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
 
@@ -61,7 +60,8 @@ class ExploreScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'Search',
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       onSubmitted: (query) {
                         if (query.isNotEmpty) {
@@ -69,7 +69,8 @@ class ExploreScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BlocProvider(
-                                create: (context) => SearchBloc()..add(SearchQueryChanged(query)),
+                                create: (context) => SearchBloc()
+                                  ..add(SearchQueryChanged(query)),
                                 child: const SearchScreen(),
                               ),
                             ),
@@ -89,7 +90,8 @@ class ExploreScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BlocProvider(
-                                create: (context) => SearchBloc()..add(SearchQueryChanged(query)),
+                                create: (context) => SearchBloc()
+                                  ..add(SearchQueryChanged(query)),
                                 child: const SearchScreen(),
                               ),
                             ),
@@ -144,14 +146,24 @@ class ExploreScreen extends StatelessWidget {
               spacing: 8.0,
               runSpacing: 8.0,
               children: [
-                'Science', 'Elon Musk', 'Politics', 'Weather', 'Cricket', 'Technology', 'Health', 'Business', 'Entertainment', 'Travel'
+                'Science',
+                'Elon Musk',
+                'Politics',
+                'Weather',
+                'Cricket',
+                'Technology',
+                'Health',
+                'Business',
+                'Entertainment',
+                'Travel'
               ].map((text) {
                 return GestureDetector(
                   onTap: () {
                     context.read<ExploreBloc>().add(SelectTagEvent(text));
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(16.0),
@@ -224,7 +236,8 @@ class ExploreScreen extends StatelessWidget {
 
           // Recommended Section
           Padding(
-            padding: const EdgeInsets.only(top: 22.0, left: 22.0, right: 22.0, bottom: 0),
+            padding: const EdgeInsets.only(
+                top: 22.0, left: 22.0, right: 22.0, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -258,7 +271,8 @@ class ExploreScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 8, top: 8, right: 8.0),
+            padding:
+                const EdgeInsets.only(left: 20, bottom: 8, top: 8, right: 8.0),
             child: ListView.builder(
               itemCount: 3,
               shrinkWrap: true,
