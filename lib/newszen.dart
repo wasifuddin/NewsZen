@@ -9,6 +9,7 @@ import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 
 import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
+import 'features/main/presentation/news_sites_screen/bloc/news_by_source_bloc.dart';
 import 'features/main/presentation/signupform/bloc/signup_cubit.dart';
 
 class Newszen extends StatefulWidget {
@@ -52,6 +53,7 @@ class _NewszenState extends State<Newszen> {
         BlocProvider<LoginCubit>(create: (_) => LoginCubit()),
         BlocProvider<NewsCubit>(create: (_) => NewsCubit()),
         BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
+        BlocProvider<NewsBySourceBloc>(create: (_) => NewsBySourceBloc()),
       ],
       child: ResponsiveSizer(builder: (context, orientation, devicetype) {
         return MaterialApp(

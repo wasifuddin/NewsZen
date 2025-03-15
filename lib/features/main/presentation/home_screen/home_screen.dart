@@ -23,6 +23,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>  {
+  final List<Map<String, String>> newsSources = [
+    //{'name': 'BBC', 'imagePath': AppAssets.image.img_bbc_logo},
+    {'name': 'CNN', 'imagePath': AppAssets.image.img_cnn_logo},
+    {'name': 'Al Zazeera', 'imagePath': AppAssets.image.img_aljazeera_logo},
+    //{'name': 'Prothom Alo', 'imagePath': AppAssets.image.img_prothom_alo_logo},
+    {'name': 'The Daily Star', 'imagePath': AppAssets.image.img_daily_star_logo},
+    {'name': 'bdnews24', 'imagePath': AppAssets.image.img_bdnews24_logo},
+    {'name': 'The Daily Ittefaq', 'imagePath': AppAssets.image.img_ittefaq_logo},
+    //{'name': 'mzamin', 'imagePath': AppAssets.image.img_mzamin_logo},
+  ];
 
 
   late final NewsCubit _newsCubit;
@@ -193,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen>  {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const NewsSitesScreen(),
+                                      builder: (context) => const NewsSitesScreen(selectedSource: '',),
                                     ),
                                   );
                                   print('See All clicked');
@@ -214,21 +224,23 @@ class _HomeScreenState extends State<HomeScreen>  {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
-                          child: SingleChildScrollView
-
-                            (scrollDirection: Axis.horizontal,child:Row(
-                            children: [
-                              NewsSourceCircle(imagePath: AppAssets.image.img_bbc_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_cnn_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_aljazeera_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_prothom_alo_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_daily_star_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_bdnews24_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_ittefaq_logo),
-                              NewsSourceCircle(imagePath: AppAssets.image.img_mzamin_logo),
-
-                            ],
-                          )),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: newsSources.map((source) {
+                                return NewsSourceCircle(
+                                  name: source['name']!,
+                                  imagePath: source['imagePath']!,
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewsSitesScreen(selectedSource: source['name']!,),
+                                    ),
+                                  )
+                                );
+                              }).toList(),
+                            ),
+                          ),
                         ),
                         SizedBox(height: 10,),
                         const Padding(
@@ -512,39 +524,45 @@ class _HomeScreenState extends State<HomeScreen>  {
   }
 }
 
-class NewsSourceCircle extends StatelessWidget{
+class NewsSourceCircle extends StatelessWidget {
   final String imagePath;
+  final String name;
+  final VoidCallback onTap;
 
-  NewsSourceCircle({required this.imagePath});
+  const NewsSourceCircle({
+    required this.name,
+    required this.imagePath,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        //color: Colors.red,
-        decoration: BoxDecoration(
-          color: Colors.white, // Set the fill color for the CircleAvatar
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.red.withOpacity(0.2), // Shadow color
-              spreadRadius: 3,
-              blurRadius: 5, // Controls the softness of the shadow
-              offset: Offset(0, 3), // Controls the position of the shadow
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.red.withOpacity(0.2),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover,
+              width: 60,
+              height: 60,
             ),
-          ],
-        ),
-        child: ClipOval(
-          // Directly sets the image
-          child: Image.asset(
-            imagePath,
-            fit: BoxFit.cover, // Ensures the image fills the CircleAvatar
-            width: 60, // Matches the diameter
-            height: 60,
           ),
         ),
-
       ),
     );
   }
