@@ -99,7 +99,8 @@ class _HomeScreenState extends State<HomeScreen>  {
           }
           else if(state is NewsLoaded || state is TrendingNewsLoading || state is TrendingNewsLoaded)
           {
-            previousWidget =Column(
+            previousWidget =
+                Column(
               children: [
                 SingleChildScrollView(
                   //first filter design

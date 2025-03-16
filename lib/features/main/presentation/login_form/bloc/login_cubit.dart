@@ -43,7 +43,6 @@ class LoginCubit extends Cubit<LoginState>
     var regBody = {
       "email":email,
       "password":password,
-
     };
 
     var response = await http.post(
@@ -51,7 +50,9 @@ class LoginCubit extends Cubit<LoginState>
       headers: {"Content-type":"application/json"},
       body: jsonEncode(regBody),
     );
+
     print('apiworked');
+
 
     var jsonResponse = jsonDecode(response.body);
 

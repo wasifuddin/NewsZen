@@ -54,7 +54,6 @@ class _AIChatScreenState extends State<AIChatScreen> {
     var regBody = {
       "query":message,
 
-
     };
     try {
       final response = await http.post(

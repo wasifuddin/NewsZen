@@ -1,4 +1,4 @@
-final url = 'http://192.168.68.106:3001/';
+final url = 'http://192.168.0.209:3001/';
 
 final registration = url + "registration";
 
@@ -24,3 +24,7 @@ final removesavedurl = url + "removeSaved";
 final searchurl = url + "search";
 
 final sourceurl = url + "source";
+
+// for twitter
+final twitterdatafetchurl = datafetchurl+"/twitter";
+final twittermostviewedurl = mostviewedurl +"/twitter";

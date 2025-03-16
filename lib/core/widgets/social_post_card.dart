@@ -33,7 +33,7 @@ class SocialPostCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.author,
+                        post.title,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -44,13 +44,13 @@ class SocialPostCard extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            _getPlatformIcon(post.platform),
+                            _getPlatformIcon(post.source),
                             size: 14,
                             color: Colors.grey[600],
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            post.platform,
+                            post.source,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[600],
@@ -72,11 +72,11 @@ class SocialPostCard extends StatelessWidget {
             ),
           ),
           // Post content
-          if (post.postContent.isNotEmpty)
+          if (post.description.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                post.postContent,
+                post.description,
                 style: const TextStyle(
                   fontSize: 15,
                   fontFamily: 'Montserrat',

@@ -1,0 +1,2 @@
+/home/fateennr/bigL/academics/Projects/NewsZen/android/app/.cxx/Debug/571c2e6u/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/fateennr/bigL/academics/Projects/NewsZen/android/app/.cxx/Debug/571c2e6u/armeabi-v7a/CMakeFiles/rebuild_cache.dir
