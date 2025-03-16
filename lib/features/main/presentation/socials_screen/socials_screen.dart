@@ -60,111 +60,111 @@ class _SocialsPageState extends State<SocialsPage> {
       appBar: AppBar(title: const Text('Socials')),
       backgroundColor: main_background_colour,
       body:
-          BlocBuilder<SocialNewsCubit, SocialNewsState>(
-            builder: (context, state){
-              if(state is SocialNewsError){
-                return Center(child: Text("Failed to fetch news"));
-              }
-              if(state is SocialNewsLoading){
-                initialnewsload = true;
-                return previousWidget ?? Center(child: CircularProgressIndicator());
+      BlocBuilder<SocialNewsCubit, SocialNewsState>(
+    builder: (context, state) {
+    if (state is SocialNewsError) {
+    return const Center(child: Text("Failed to fetch news"));
+    }
+    if (state is SocialNewsLoading) {
+    initialnewsload = true;
+    return previousWidget ?? const Center(child: CircularProgressIndicator());
+    }
+    if (state is SocialNewsLoaded) {
+    previousWidget = Column(
+    children: [
+    // Platform Toggle
+    Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+    _buildTab('Twitter'),
+    _buildTab('YouTube'),
+    ],
+    ),
+    const SizedBox(height: 10),
 
-              }
-              else if(state is SocialNewsLoaded)
-              {
-                  previousWidget = Column(
-                    children: [
-                      // Platform Toggle
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildTab('Twitter'),
-                          _buildTab('YouTube'),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
+    // Search Bar
+    Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    child: TextField(
+    onChanged: (value) => setState(() => searchQuery = value),
+    decoration: InputDecoration(
+    hintText: 'Search Twitter Persona',
+    prefixIcon: const Icon(Icons.search),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+    ),
+    ),
+    const SizedBox(height: 10),
 
-                      // Search Bar
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TextField(
-                          onChanged: (value) => setState(() => searchQuery = value),
-                          decoration: InputDecoration(
-                            hintText: 'Search Twitter Persona',
-                            prefixIcon: const Icon(Icons.search),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+    // Horizontal Tag Scroll
+    SizedBox(
+    height: 40,
+    child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    padding: const EdgeInsets.symmetric(horizontal: 10),
+    itemCount: tags.length,
+    itemBuilder: (context, index) {
+    String tag = tags[index];
+    return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    child: GestureDetector(
+    onTap: () => setState(() => selectedTag = tag),
+    child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    decoration: BoxDecoration(
+    border: Border.all(color: selectedTag == tag ? primary_red : Colors.grey),
+    borderRadius: BorderRadius.circular(20),
+    color: selectedTag == tag ? primary_red.withOpacity(0.2) : Colors.white,
+    ),
+    child: Text(tag, style: TextStyle(color: selectedTag == tag ? primary_red : Colors.black)),
+    ),
+    ),
+    );
+    },
+    ),
+    ),
+    const SizedBox(height: 10),
 
-                      // Horizontal Tag Scroll
-                      SizedBox(
-                        height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          itemCount: tags.length,
-                          itemBuilder: (context, index) {
-                            String tag = tags[index];
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: GestureDetector(
-                                onTap: () => setState(() => selectedTag = tag),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: selectedTag == tag ? primary_red : Colors.grey),
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: selectedTag == tag ? primary_red.withOpacity(0.2) : Colors.white,
-                                  ),
-                                  child: Text(tag, style: TextStyle(color: selectedTag == tag ? primary_red : Colors.black)),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+    // Posts List
+    Expanded(
+    child: ListView.builder(
+    itemCount: getFilteredPosts().length,
+    itemBuilder: (context, index) {
+    final post = getFilteredPosts()[index];
+    return Stack(
+    children: [
+    SocialPostCard(post: post),
+    if (isNewPost(post.dateTime))
+    Positioned(
+    top: 8,
+    right: 8,
+    child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    decoration: BoxDecoration(
+    color: Colors.red,
+    borderRadius: BorderRadius.circular(8),
+    ),
+    child: const Text(
+    'New Post',
+    style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+    ),
+    ),
+    ),
+    ],
+    );
+    },
+    ),
+    ),
+    ],
+    );
 
-                      // Posts List
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: getFilteredPosts().length,
-                          itemBuilder: (context, index) {
-                            final post = getFilteredPosts()[index];
-                            return Stack(
-                              children: [
-                                SocialPostCard(post: post),
-                                if (isNewPost(post.dateTime))
-                                  Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Text(
-                                        'New Post',
-                                        style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-              }
-            }
+    return previousWidget!;
+    }
 
+    return const Center(child: CircularProgressIndicator()); // Ensure a Widget is returned in all cases
+    },
+    ),
 
-
-          ), // BlockBuilder
 
     );
   }
