@@ -50,7 +50,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
   }*/
 
   Future<String> _getChatbotResponse(String message) async {
-    const String apiUrl = "http://10.0.2.2:5000/predict"; // Replace with your server URL
+    //const String apiUrl = "http://10.0.2.2:5000/predict"; // Replace with your server URL
+    const String apiUrl = "https://chat-zen.vercel.app/predict"; // Replace with your server URL
     var regBody = {
       "query":message,
 

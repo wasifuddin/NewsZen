@@ -30,6 +30,8 @@ final getsavednewsurl = url + "getsavednews";
 
 final categoryurl = url + "category";
 
+final updateuserinfourl = url + "updateUserInfo";
+
 // For twitter
 final twitterdatafetchurl = datafetchurl + "/twitter";
 
