@@ -13,6 +13,7 @@ import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'features/main/presentation/news_sites_screen/bloc/news_by_source_bloc.dart';
 import 'features/main/presentation/signupform/bloc/signup_cubit.dart';
+import 'features/main/presentation/socials_screen/bloc/social_news_cubit.dart';
 
 class Newszen extends StatefulWidget {
   const Newszen({super.key});
@@ -61,6 +62,7 @@ class _NewszenState extends State<Newszen> {
         BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
         BlocProvider<DetailCubit>(create: (_) => DetailCubit()),
         BlocProvider<NewsBySourceBloc>(create: (_) => NewsBySourceBloc()),
+        BlocProvider<SocialNewsCubit>(create: (_) => SocialNewsCubit()),
       ],
       child: ResponsiveSizer(
           builder: (context,orientation,devicetype) {

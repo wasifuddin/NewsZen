@@ -30,7 +30,7 @@ class _MainBottomBarState extends State<MainBottomBar> {
     BottomMenuModel(
       icon: Icons.window_outlined,
       activeIcon: Icons.window,
-      body: const SocialsScreen(),
+      body: const SocialsPage(),
     ),
     BottomMenuModel(
       icon: Icons.chat_outlined,

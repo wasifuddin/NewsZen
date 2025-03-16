@@ -9,6 +9,7 @@ class _ImageConstant {
 
   static String imagePath = 'assets/images';
   static String newsIconPath = 'assets/news_icons';
+  static String socialIconPath = 'assets/social_icons';
 
   String img_short_logo ='$imagePath/img_short_logo.png';
   String img_med_logo = '$imagePath/img_med_logo.png';
@@ -38,5 +39,7 @@ class _ImageConstant {
   String img_saved_icon_active = '$imagePath/img_saved_icon_active.png';
   String img_profile_icon_active = '$imagePath/img_profile_icon_active.png';
 
-
+  String img_globe_icon = '$socialIconPath/globe.png';
+  String img_twitter_icon = '$socialIconPath/twitter.png';
+  String img_youtube_icon = '$socialIconPath/youtube.png';
 }
