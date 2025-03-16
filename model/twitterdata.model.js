@@ -5,16 +5,18 @@ const db = require('../config/db');
 
 const { Schema } =  mongoose;
 
+
 const DataSchema = new Schema({
   
     _id:{
         type:mongoose.Schema.Types.ObjectId,
+        
     },
     title:{
         type:String,
         required: true,
     },
-    imageurl:{
+    content:{
         type:String,
         required: true,
     },
@@ -22,29 +24,28 @@ const DataSchema = new Schema({
         type:String,
         required: true,
     },
-    url:{
-        type:String,
-        required: true,
-    },
-    dateTime:{
+    timestamp:{
         type:Date,
         required: true,
     },
-    description:{
+    video_urls:{
         type:String,
         required: true,
-    }, topic: {
+    },
+    image_urls:{
+        type:String,
+        required: true,
+    },
+    tag: {
         type: String,
         required: true,
     },
-    likecount: {
-        type:Number,
-        required: true,
-
-    },
-    
     language:{
         type: String,
+        required: true,
+    },
+    like_count: {
+        type:Number,
         required: true,
 
     },
@@ -54,8 +55,8 @@ const DataSchema = new Schema({
 
     }
 
-},{ collection: 'news' });
+},{ collection: 'twitter' });
 
-const DataModel = db.model('news',DataSchema);
+const DataModel = db.model('twitter',DataSchema);
 
 module.exports = DataModel;

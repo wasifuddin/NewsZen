@@ -18,4 +18,10 @@ router.get('/data/twitter', dataController.getTwitterData);
 router.get('/search/twitter',dataController.searchTwitterData);
 router.get('/most-viewed/twitter', dataController.TwittergetMostViewed);
 
+//youtube
+router.get('/data/youtube', dataController.getYoutubeData);
+router.get('/search/youtube',dataController.searchYoutubeData);
+router.get('/most-viewed/youtube', dataController.YoutubegetMostViewed);
+
+
 module.exports= router;

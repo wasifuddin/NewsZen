@@ -9,5 +9,5 @@ app.get('/',(req,res)=>{
     res.send("Hello World nnn")
 });
 app.listen(port,"0.0.0.0",()=>{
-    console.log('Server listening on Port http:://localhost:3001');
+    console.log(`Server listening on Port http://localhost:${port}`);
 });

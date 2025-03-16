@@ -1,20 +1,13 @@
 // services/data.service.js
+const TwitterDataModel = require('../model/twitterdata.model');
+const YoutubeDataModel = require('../model/youtubedata.model');
+
+
 const DataModel = require('../model/data.model');
+const twittertopics = [ "Cricket", "Bangladesh", "Palestine", "Islam", "Football", "Technology", "World" ];
+const youtubetopics = [ "Bengaladesh", "International"];
 
 class DataService {
-    // Fetch data with pagination (limit 10, skip based on page)
-    /* async getData(page, limit = 10) {
-        try {
-            const data = await DataModel.find()
-                .skip((page - 1) * limit)
-                .sort({ dateTime: -1 })  // Skip documents for pagination
-                .limit(limit);             // Limit the number of documents
-            return data;
-        } catch (error) {
-            throw new Error('Error fetching data: ' + error.message);
-        }
-    } */
-
         async getData(page = 1) {
             try {
                 // Define your news types array
@@ -261,6 +254,10 @@ class DataService {
             throw new Error("Error fetching news by ID: " + error.message);
         }
     }
+
+
+    
+   //twitter
     
     async getTwitterData(page = 1) {
         try {
@@ -351,50 +348,97 @@ class DataService {
             throw new Error('Error fetching most viewed data: ' + error.message);
         }
     }
+
+    
+    async getYoutubeData(page = 1) {
+        try {
+            // Define your news types array
+            const newsTypes = youtubetopics;
+            
+            // 1. For the current page, fetch up to 2 items per topic.
+            let guaranteedItems = [];
+            for (const type of newsTypes) {
+                const items = await YoutubeDataModel.find({ topic: type })
+                    .sort({ dateTime: -1 })
+                    .skip((page - 1) * 2)  // paginate per topic: page 1 gets first 2, page 2 gets next 2, etc.
+                    .limit(2);
+                guaranteedItems.push(...items);
+            }
+            const guaranteedCount = guaranteedItems.length; // may be less than 16 if some topics are short
+            
+            // 2. Compute a reserved set of items: these are the items that would have been used in previous pages
+            //    for each topic (so we don’t repeat them in additional fill).
+            let reservedIDs = [];
+            for (const type of newsTypes) {
+                const reserved = await YoutubeDataModel.find({ topic: type })
+                    .sort({ dateTime: -1 })
+                    .limit((page - 1) * 2); // all items allocated to previous pages for this topic
+                reservedIDs.push(...reserved.map(doc => doc._id));
+            }
+            // Also reserve the items already chosen for the current page
+            reservedIDs.push(...guaranteedItems.map(doc => doc._id));
+            
+            // 3. Calculate how many additional items are needed to reach 16.
+            const missingCount = 16 - guaranteedCount;
+            let additionalItems = [];
+            if (missingCount > 0) {
+                // Here we fill from the overall collection (sorted by dateTime descending)
+                // while excluding any items already reserved.
+                // We also paginate additional items by skipping additional items allocated to earlier pages.
+                additionalItems = await YoutubeDataModel.find({ _id: { $nin: reservedIDs } })
+                    .sort({ dateTime: -1 })
+                    .skip((page - 1) * missingCount) // simple pagination for additional items
+                    .limit(missingCount);
+            }
+            
+            // 4. Combine and (optionally) sort the final results.
+            let results = [...guaranteedItems, ...additionalItems];
+            results.sort((a, b) => b.dateTime - a.dateTime);
+            // console.log(results);
+            
+            // Ensure exactly 16 items are returned.
+            return results.slice(0, 16);
+        } catch (error) {
+            throw new Error('Error fetching data: ' + error.message);
+        }
+    }
     
     
-    
-    
-    
+    async searchYoutubeData(searchString, page = 1, limit = 10) {
+        try {
+            return await YoutubeDataModel.find({
+                title: { $regex: searchString, $options: 'i' }
+            })
+            .skip((page - 1) * limit)
+            .limit(limit);
+        } catch (error) {
+            throw new Error('Error searching data: ' + error.message);
+        }
+    }
+
+
+    async YoutubegetMostViewed(page = 1, limit = 10) {
+        try {
+            const pipeline = [
+                // Compute the views field: likecount * 110
+                {
+                    $addFields: {
+                        views: { $multiply: ["$likecount", 110] } // adding a new field, views
+                    }
+                },
+                // Sort by computed views (desc) and then by dateTime (desc) as secondary order
+                { $sort: { views: -1, dateTime: -1 } },
+                // Skip to the proper page
+                { $skip: (page - 1) * limit },
+                // Limit to the desired number of documents
+                { $limit: limit }
+            ];
+            const data = await YoutubeDataModel.aggregate(pipeline);
+            return data;
+        } catch (error) {
+            throw new Error('Error fetching most viewed data: ' + error.message);
+        }
+    }
 }
 
 module.exports =  new DataService();
-
-/* async getData(req, res) {
-            try {
-                const types = ['national', 'world', 'politics', 'sports', 'business', 'finance', 'technology', 'entertainment'];
-                const limitPerType = 2; // Fetch 2 items for each type
-                let data = [];
-        
-                // Fetch 2 items for each type
-                for (let type of types) {
-                    const typeData = await DataModel.find({ topic: type })
-                        .limit(limitPerType)
-                        .sort({ dateTime: -1 });  // You can adjust the sorting order as needed
-                    data = data.concat(typeData); // Append the fetched data
-                }
-        
-                // Ensure we have 16 items (2 items for each type)
-                if (data.length === 16) {
-                    res.json(data.map(doc => ({
-                        id: doc._id.toString(),
-                        title: doc.title,
-                        imageurl: doc.imageurl,
-                        source: doc.source,
-                        url: doc.url,
-                        dateTime: doc.dateTime,
-                        description: doc.description,
-                        topic: doc.topic,
-                        language: doc.language,
-                        likecount: doc.likecount,
-                        priority: doc.priority
-                    })));
-                } else {
-                    res.status(404).send('Not enough data for all types.');
-                }
-            } catch (err) {
-                console.error('Error:', err);
-                res.status(500).send('Error fetching data: ' + err.message);
-            }
-        }
-         */
