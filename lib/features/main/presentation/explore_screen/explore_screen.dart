@@ -148,16 +148,7 @@ class ExploreScreen extends StatelessWidget {
               spacing: 8.0,
               runSpacing: 8.0,
               children: [
-                'Science',
-                'Elon Musk',
-                'Politics',
-                'Weather',
-                'Cricket',
-                'Technology',
-                'Health',
-                'Business',
-                'Entertainment',
-                'Travel'
+                'National', 'World', 'Politics', 'Sports', 'Technology', 'Entertainment'
               ].map((text) {
                 return GestureDetector(
                   onTap: () {

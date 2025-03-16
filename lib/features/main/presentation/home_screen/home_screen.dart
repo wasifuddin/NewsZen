@@ -231,10 +231,27 @@ class _HomeScreenState extends State<HomeScreen>  {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          // child: SingleChildScrollView(
+                          //   scrollDirection: Axis.horizontal,
+                          //   child: Row(
+                          //     children: newsSources.map((source) {
+                          //       return NewsSourceCircle(
+                          //         name: source['name']!,
+                          //         imagePath: source['imagePath']!,
+                          //         onTap: () => Navigator.push(
+                          //           context,
+                          //           MaterialPageRoute(
+                          //             builder: (context) => NewsSitesScreen(selectedSource: source['name']!,),
+                          //           ),
+                          //         )
+                          //       );
+                          //     }).toList(),
+                          //   ),
+                          // ),
+                          child: Center(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center, // Center the items horizontally
                               children: newsSources.map((source) {
                                 return NewsSourceCircle(
                                   name: source['name']!,
@@ -242,9 +259,9 @@ class _HomeScreenState extends State<HomeScreen>  {
                                   onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => NewsSitesScreen(selectedSource: source['name']!,),
+                                      builder: (context) => NewsSitesScreen(selectedSource: source['name']!),
                                     ),
-                                  )
+                                  ),
                                 );
                               }).toList(),
                             ),

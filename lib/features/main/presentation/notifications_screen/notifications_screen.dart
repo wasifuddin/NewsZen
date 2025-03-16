@@ -9,7 +9,8 @@ void showNotificationScreen(BuildContext context) {
     barrierDismissible: true,
     builder: (BuildContext context) {
       return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         insetPadding: const EdgeInsets.all(20),
         child: NotificationsScreen(),
       );
@@ -60,17 +61,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: Column(
         children: [
           // Header with Close Button
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+            padding: const EdgeInsets.fromLTRB(24, 12, 12, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Notifications",
+                  "Headlines At A Glance",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -104,7 +105,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       Expanded(
                         child: Text(
                           notifications[index],
-                          style: const TextStyle(fontSize: 14, fontFamily: "Montserrat"),
+                          style: const TextStyle(fontSize: 16, fontFamily: "Montserrat"),
                         ),
                       ),
                     ],
