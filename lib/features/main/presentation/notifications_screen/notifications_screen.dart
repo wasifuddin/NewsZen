@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:news_zen/config/server_config.dart';
 
 void showNotificationScreen(BuildContext context) {
   showDialog(
@@ -14,21 +17,44 @@ void showNotificationScreen(BuildContext context) {
   );
 }
 
-class NotificationsScreen extends StatelessWidget {
-  final List<String> notifications = [
-    "Breaking: Major event happening now!",
-    "Your daily news digest is ready.",
-    "New article published: Tech Innovations 2025",
-    "Live: Sports update happening now!",
-    "Reminder: Check your saved articles.",
-    "Breaking: Major event happening now!",
-    "Your daily news digest is ready.",
-    "New article published: Tech Innovations 2025",
-    "Live: Sports update happening now!",
-    "Reminder: Check your saved articles.",
-  ];
-
+class NotificationsScreen extends StatefulWidget {
   NotificationsScreen({super.key});
+
+  @override
+  _NotificationsScreenState createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  List<String> notifications = [];
+  bool isLoading = true;
+  String errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNotifications();
+  }
+
+  Future<void> fetchNotifications() async {
+    try {
+      final response = await http.get(Uri.parse(latesturl));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          notifications = data.map((item) => item['title'].toString()).toList();
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load notifications');
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error: $e';
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +87,11 @@ class NotificationsScreen extends StatelessWidget {
           //const Divider(),
           // Notifications List
           Expanded(
-            child: ListView.builder(
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : errorMessage.isNotEmpty
+                ? Center(child: Text(errorMessage))
+                : ListView.builder(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
               itemCount: notifications.length,
               itemBuilder: (context, index) {
