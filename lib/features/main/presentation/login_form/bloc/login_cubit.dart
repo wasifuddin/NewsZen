@@ -92,7 +92,7 @@ class LoginCubit extends Cubit<LoginState>
   }
 
   void logout(BuildContext context) async {
-    //await PrefUtils.clearLoginInfo(); // Remove stored credentials
+    await PrefUtils.clearLoginInfo(); // Remove stored credentials
 
     Navigator.pushAndRemoveUntil(
       context,
