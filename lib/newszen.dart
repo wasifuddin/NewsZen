@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_zen/features/main/presentation/saved_screen/bloc/saved_cubit.dart';
 //import 'package:sizer/sizer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,6 +62,8 @@ class _NewszenState extends State<Newszen> {
         BlocProvider<SignupCubit>(create: (_) => SignupCubit()),
         BlocProvider<DetailCubit>(create: (_) => DetailCubit()),
         BlocProvider<NewsBySourceBloc>(create: (_) => NewsBySourceBloc()),
+        BlocProvider<SavedCubit>(create: (_) => SavedCubit()),
+
       ],
       child: ResponsiveSizer(
           builder: (context,orientation,devicetype) {

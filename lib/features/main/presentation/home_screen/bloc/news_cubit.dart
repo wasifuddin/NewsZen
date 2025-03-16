@@ -15,6 +15,7 @@ class NewsCubit extends Cubit<NewsState> {
   int currentPopularPage = 1;
   int currentLatestPage = 1;
   int currentMostviewedPage = 1;
+  bool start = true;
 
   List<NewsModel> pageViewNews=[];
   List<NewsModel> horizontalNews=[];
@@ -319,11 +320,19 @@ class NewsCubit extends Cubit<NewsState> {
       print("inside all topic ");
       // If "All" is selected, return combined results from all categories
       List<NewsModel> allNews = [];
+      allNews.addAll(mostViewedNews);
       allNews.addAll(trendingNews);
       allNews.addAll(popularNews);
       allNews.addAll(latestNews);
-      allNews.addAll(mostViewedNews);
-      allNews.shuffle();
+
+      if(start)
+        {
+          start=false;
+          allNews.shuffle();
+        }
+
+
+
       return allNews;
     } else if (topic == 'Trending') {
       print("inside trending topic ");

@@ -21,6 +21,11 @@ final addsavedurl = url + "addSaved";
 final removelikedurl = url + "removeLiked";
 
 final removesavedurl = url + "removeSaved";
+
 final searchurl = url + "search";
 
 final sourceurl = url + "source";
+
+final getsavedurl = url + "getsavednews";
+
+final getnewsbyid= url + "news";
