@@ -250,6 +250,108 @@ class DataService {
         }
     }
     
+    async getNewsById(newsId) {
+        try {
+            const news = await DataModel.findById(newsId);
+            if (!news) {
+                throw new Error("News article not found");
+            }
+            return news;
+        } catch (error) {
+            throw new Error("Error fetching news by ID: " + error.message);
+        }
+    }
+    
+    async getTwitterData(page = 1) {
+        try {
+            // Define your news types array
+            const newsTypes = twittertopics;
+            
+            // 1. For the current page, fetch up to 2 items per topic.
+            let guaranteedItems = [];
+            for (const type of newsTypes) {
+                const items = await TwitterDataModel.find({ topic: type })
+                    .sort({ dateTime: -1 })
+                    .skip((page - 1) * 2)  // paginate per topic: page 1 gets first 2, page 2 gets next 2, etc.
+                    .limit(2);
+                guaranteedItems.push(...items);
+            }
+            const guaranteedCount = guaranteedItems.length; // may be less than 16 if some topics are short
+            
+            // 2. Compute a reserved set of items: these are the items that would have been used in previous pages
+            //    for each topic (so we don’t repeat them in additional fill).
+            let reservedIDs = [];
+            for (const type of newsTypes) {
+                const reserved = await TwitterDataModel.find({ topic: type })
+                    .sort({ dateTime: -1 })
+                    .limit((page - 1) * 2); // all items allocated to previous pages for this topic
+                reservedIDs.push(...reserved.map(doc => doc._id));
+            }
+            // Also reserve the items already chosen for the current page
+            reservedIDs.push(...guaranteedItems.map(doc => doc._id));
+            
+            // 3. Calculate how many additional items are needed to reach 16.
+            const missingCount = 16 - guaranteedCount;
+            let additionalItems = [];
+            if (missingCount > 0) {
+                // Here we fill from the overall collection (sorted by dateTime descending)
+                // while excluding any items already reserved.
+                // We also paginate additional items by skipping additional items allocated to earlier pages.
+                additionalItems = await TwitterDataModel.find({ _id: { $nin: reservedIDs } })
+                    .sort({ dateTime: -1 })
+                    .skip((page - 1) * missingCount) // simple pagination for additional items
+                    .limit(missingCount);
+            }
+            
+            // 4. Combine and (optionally) sort the final results.
+            let results = [...guaranteedItems, ...additionalItems];
+            results.sort((a, b) => b.dateTime - a.dateTime);
+            // console.log(results);
+            
+            // Ensure exactly 16 items are returned.
+            return results.slice(0, 16);
+        } catch (error) {
+            throw new Error('Error fetching data: ' + error.message);
+        }
+    }
+    
+    
+    async searchTwitterData(searchString, page = 1, limit = 10) {
+        try {
+            return await TwitterDataModel.find({
+                content: { $regex: searchString, $options: 'i' }
+            })
+            .skip((page - 1) * limit)
+            .limit(limit);
+        } catch (error) {
+            throw new Error('Error searching data: ' + error.message);
+        }
+    }
+
+
+    async TwittergetMostViewed(page = 1, limit = 10) {
+        try {
+            const pipeline = [
+                // Compute the views field: likecount * 110
+                {
+                    $addFields: {
+                        views: { $multiply: ["$likecount", 110] } // adding a new field, views
+                    }
+                },
+                // Sort by computed views (desc) and then by dateTime (desc) as secondary order
+                { $sort: { views: -1, dateTime: -1 } },
+                // Skip to the proper page
+                { $skip: (page - 1) * limit },
+                // Limit to the desired number of documents
+                { $limit: limit }
+            ];
+            const data = await TwitterDataModel.aggregate(pipeline);
+            return data;
+        } catch (error) {
+            throw new Error('Error fetching most viewed data: ' + error.message);
+        }
+    }
+    
     
     
     

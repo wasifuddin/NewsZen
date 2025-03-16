@@ -11,5 +11,11 @@ router.get('/latest', dataController.getLatest);
 router.post('/recommended', dataController.getRecommendedNews);
 router.get('/category', dataController.getDataByCategory);
 router.get('/source', dataController.getDataBySource);
+router.post('/news', dataController.getNewsById);
+
+//twitter
+router.get('/data/twitter', dataController.getTwitterData);
+router.get('/search/twitter',dataController.searchTwitterData);
+router.get('/most-viewed/twitter', dataController.TwittergetMostViewed);
 
 module.exports= router;

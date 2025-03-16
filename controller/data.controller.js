@@ -238,6 +238,126 @@ async getDataBySource(req, res) {
     }
 }
 
+async getNewsById(req, res) {
+    try {
+        const { id } = req.body; // Extract ID from request body
+        if (!id) {
+            return res.status(400).json({ error: "News ID is required" });
+        }
+
+        const news = await dataService.getNewsById(id);
+
+        res.json({
+            id: news._id.toString(),
+            title: news.title,
+            imageurl: news.imageurl,
+            source: news.source,
+            url: news.url,
+            dateTime: news.dateTime,
+            description: news.description,
+            topic: news.topic,
+            language: news.language,
+            likecount: news.likecount,
+            priority: news.priority
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Error fetching news: " + err.message });
+    }
+}
+
+// for twitter
+
+async getTwitterData(req, res) {
+
+    try {
+        const page = parseInt(req.query.page) || 1;  // Get page number from query params (default is 1)
+        const data = await dataService.getTwitterData(page); // Fetch data using the service
+        
+        console.log("data successfully reached controller");
+        console.log(data);
+
+        const likecount = parseInt(data.likecount) || 0;
+        // Base calculations
+
+        // Map the data and send as response
+        res.json(data.map(doc => ({
+            id: doc._id.toString(),
+            title: doc.title,
+            imageurls: doc.image_urls,
+            videourls: doc.video_urls,
+            source: doc.source,
+            dateTime: doc.timestamp,
+            description: doc.content,
+            topic: doc.tag,
+            language: doc.language,
+            likecount: doc.like_count,
+            priority:doc.priority,
+        })));
+    } catch (err) {
+        res.status(500).send('Error fetching data: ' + err.message);
+    }
+    }
+
+    // the endpoint will be /search?q=wordtosearch
+    async searchTwitterData(req, res) {
+        try {
+            const searchString = req.query.q;
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10; // Default limit = 10
+            
+            if (!searchString) {
+                return res.status(400).json({ error: "Query parameter 'q' is required." });
+            }
+    
+            const data = await dataService.searchTwitterData(searchString, page, limit);
+            
+            console.log("found data is " + data);
+            res.json({
+                currentPage: page,
+                totalResults: data.length,
+                results: data.map(doc => ({
+                    id: doc._id.toString(),
+                    title: doc.title,
+                    imageurls: doc.image_urls,
+                    videourls: doc.video_urls,
+                    source: doc.source,
+                    dateTime: doc.timestamp,
+                    description: doc.content,
+                    topic: doc.tag,
+                    language: doc.language,
+                    likecount: doc.like_count,
+                    priority:doc.priority,
+                }))
+            });
+        } catch (err) {
+            res.status(500).send('Error searching data: ' + err.message);
+        }
+        }
+
+        async TwittergetMostViewed(req, res) {
+            try {
+                const page = parseInt(req.query.page) || 1;
+                const data = await dataService.TwittergetMostViewed(page);
+                
+                res.json(data.map(doc => ({
+                    id: doc._id.toString(),
+                    title: doc.title,
+                    imageurls: doc.image_urls,
+                    videourls: doc.video_urls,
+                    source: doc.source,
+                    dateTime: doc.timestamp,
+                    description: doc.content,
+                    topic: doc.tag,
+                    language: doc.language,
+                    likecount: doc.like_count,
+                    priority:doc.priority,
+                    views: doc.views  // computed field
+                })));
+            } catch (err) {
+                res.status(500).send('Error fetching most viewed data: ' + err.message);
+            }
+        }
+
 
 
 }
