@@ -1,4 +1,4 @@
-final url = 'http://192.168.225.27:3001/';
+final url = 'https://newszen-apibackend.vercel.app/';
 
 final registration = url + "registration";
 
@@ -27,6 +27,8 @@ final searchurl = url + "search";
 final sourceurl = url + "source";
 
 final getsavednewsurl = url + "getsavednews";
+
+final categoryurl = url + "category";
 
 // For twitter
 final twitterdatafetchurl = datafetchurl + "/twitter";

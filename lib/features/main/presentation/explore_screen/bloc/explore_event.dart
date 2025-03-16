@@ -15,3 +15,9 @@ class SelectTagEvent extends ExploreEvent {
 
   SelectTagEvent(this.tag);
 }
+
+class FetchPopularNewsEvent extends ExploreEvent {
+  final String tag;
+
+  FetchPopularNewsEvent(this.tag);
+}
