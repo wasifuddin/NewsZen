@@ -10,3 +10,9 @@ class ExploreLoadedState extends ExploreState {
 
   ExploreLoadedState(this.news, this.selectedTopic);
 }
+
+class ExploreErrorState extends ExploreState {
+  final String error;
+
+  ExploreErrorState(this.error);
+}

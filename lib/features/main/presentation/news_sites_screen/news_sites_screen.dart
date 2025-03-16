@@ -27,6 +27,47 @@ class _NewsSitesScreenState extends State<NewsSitesScreen> {
     context.read<NewsBySourceBloc>().add(FetchNewsBySource(source: selectedSource));
   }
 
+  Widget _buildSourceInfo() {
+    // Replace this with your logic to fetch the source image and name
+    // For example, you might have a map or a function that returns the details based on the source ID
+    String sourceImage = AppAssets.image.img_daily_star_logo; // Default image
+    String sourceName = selectedSource; // Default name
+
+    // Example logic (replace with your actual implementation)
+    if (selectedSource == "cnn") {
+      sourceImage = AppAssets.image.img_cnn_logo;
+      sourceName = "CNN";
+    } else if (selectedSource == "The Daily Star") {
+      sourceImage = AppAssets.image.img_daily_star_logo;
+      sourceName = "The Daily Star";
+    }
+
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              sourceImage,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        Text(
+          sourceName,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

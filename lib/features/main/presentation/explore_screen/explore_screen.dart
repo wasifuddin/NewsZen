@@ -1,4 +1,3 @@
-// features/explore/explore_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_zen/core/data/remote/mock_data.dart';
@@ -11,6 +10,8 @@ import 'package:news_zen/features/main/presentation/search_screen/search_screen.
 import 'package:news_zen/features/main/presentation/search_screen/bloc/search_bloc.dart';
 import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
 import '../../../../core/widgets/custom_appbar.dart';
+import '../explore_popular_screen/bloc/explore_popular_bloc.dart';
+import '../explore_popular_screen/explore_popular_screen.dart';
 import 'bloc/explore_bloc.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -29,6 +30,8 @@ class ExploreScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is ExploreLoadedState) {
               return _buildExploreScreen(context, state);
+            } else if (state is ExploreErrorState) {
+              return Center(child: Text(state.error));
             }
             return const Center(child: Text('Something went wrong!'));
           },
@@ -60,8 +63,7 @@ class ExploreScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'Search',
                         border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16.0),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                       ),
                       onSubmitted: (query) {
                         if (query.isNotEmpty) {
@@ -123,20 +125,20 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // Add your onClick action here
-                  },
-                  child: const Text(
-                    'View All',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     // Add your onClick action here
+                //   },
+                //   child: const Text(
+                //     'View All',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 14,
+                //       fontFamily: 'Montserrat',
+                //       fontWeight: FontWeight.w400,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -159,11 +161,21 @@ class ExploreScreen extends StatelessWidget {
               ].map((text) {
                 return GestureDetector(
                   onTap: () {
-                    context.read<ExploreBloc>().add(SelectTagEvent(text));
+                    // Fetch popular news for the selected tag
+                    //context.read<ExploreBloc>().add(FetchPopularNewsEvent(text));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => ExplorePopularBloc()
+                            ..add(exploreQueryChanged(text.toLowerCase())),
+                          child: const ExplorePopularScreen(),
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(16.0),
@@ -182,62 +194,9 @@ class ExploreScreen extends StatelessWidget {
             ),
           ),
 
-          // // Latest News Section
-          // Padding(
-          //   padding: const EdgeInsets.all(22.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: [
-          //       const Align(
-          //         alignment: Alignment.centerLeft,
-          //         child: Text(
-          //           'Latest News',
-          //           style: TextStyle(
-          //             fontSize: 18,
-          //             fontWeight: FontWeight.w600,
-          //             color: Colors.black,
-          //             fontFamily: "Montserrat",
-          //           ),
-          //         ),
-          //       ),
-          //       GestureDetector(
-          //         onTap: () {
-          //           // Add your onClick action here
-          //         },
-          //         child: const Text(
-          //           'View All',
-          //           style: TextStyle(
-          //             color: Colors.black,
-          //             fontSize: 14,
-          //             fontFamily: 'Montserrat',
-          //             fontWeight: FontWeight.w400,
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          //   child: SizedBox(
-          //     height: 200,
-          //     child: PageView.builder(
-          //       scrollDirection: Axis.horizontal,
-          //       itemCount: mockNewsData.length,
-          //       itemBuilder: (context, index) {
-          //         final newsItem = mockNewsData[index];
-          //         return HorizontalNewsCard(newsItem: newsItem);
-          //       },
-          //       pageSnapping: true,
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 20),
-
           // Recommended Section
           Padding(
-            padding: const EdgeInsets.only(
-                top: 22.0, left: 22.0, right: 22.0, bottom: 0),
+            padding: const EdgeInsets.only(top: 22.0, left: 22.0, right: 22.0, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -253,26 +212,25 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // Add your onClick action here
-                  },
-                  child: const Text(
-                    'View All',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     // Add your onClick action here
+                //   },
+                //   child: const Text(
+                //     'View All',
+                //     style: TextStyle(
+                //       color: Colors.black,
+                //       fontSize: 14,
+                //       fontFamily: 'Montserrat',
+                //       fontWeight: FontWeight.w400,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 20, bottom: 8, top: 8, right: 8.0),
+            padding: const EdgeInsets.only(left: 20, bottom: 8, top: 8, right: 8.0),
             child: ListView.builder(
               itemCount: 3,
               shrinkWrap: true,

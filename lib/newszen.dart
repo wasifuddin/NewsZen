@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_zen/features/main/presentation/saved_screen/bloc/saved_cubit.dart';
+import 'package:news_zen/features/main/presentation/explore_screen/bloc/explore_bloc.dart';
 //import 'package:sizer/sizer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +11,12 @@ import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.
 import 'package:news_zen/features/main/presentation/login_form/login_form_screen.dart';
 
 import 'features/main/presentation/detail_screen/bloc/detail_cubit.dart';
+import 'features/main/presentation/explore_popular_screen/bloc/explore_popular_bloc.dart';
 import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'features/main/presentation/home_screen/bloc/news_cubit.dart';
 import 'features/main/presentation/news_sites_screen/bloc/news_by_source_bloc.dart';
 import 'features/main/presentation/signupform/bloc/signup_cubit.dart';
+import 'features/main/presentation/socials_screen/bloc/social_news_cubit.dart';
 
 class Newszen extends StatefulWidget {
   const Newszen({super.key});
@@ -64,6 +67,9 @@ class _NewszenState extends State<Newszen> {
         BlocProvider<NewsBySourceBloc>(create: (_) => NewsBySourceBloc()),
         BlocProvider<SavedCubit>(create: (_) => SavedCubit()),
 
+        BlocProvider<SocialNewsCubit>(create: (_) => SocialNewsCubit()),
+        BlocProvider<ExploreBloc>(create: (_) => ExploreBloc()),
+        BlocProvider<ExplorePopularBloc>(create: (_) => ExplorePopularBloc()),
       ],
       child: ResponsiveSizer(
           builder: (context,orientation,devicetype) {

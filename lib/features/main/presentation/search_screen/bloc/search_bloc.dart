@@ -1,4 +1,4 @@
-// features/search/bloc/search_bloc.dart
+// features/search/bloc/explore_popular_bloc.dart
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
