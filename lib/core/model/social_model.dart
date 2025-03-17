@@ -33,8 +33,8 @@ class SocialModel {
       videoUrls: (json['video_urls'] as List<dynamic>?)?.cast<String>() ?? [], // Handle null for video_urls
       source: json['source'] ?? '', // Handle null for source
       dateTime: json['timestamp'] != null ? DateTime.parse(json['timestamp']) : DateTime.now(), // Handle null for timestamp
-      description: json['content'] ?? '', // Handle null for content
-      topic: json['tag'] ?? '', // Handle null for tag
+      description: json['description'] ?? '', // Handle null for content
+      topic: json['topic'] ?? '', // Handle null for tag
       language: json['language'] ?? '', // Handle null for language
       likeCount: json['like_count'] ?? 0, // Handle null for like_count
       priority: json['priority'] ?? 0, // Handle null for priority

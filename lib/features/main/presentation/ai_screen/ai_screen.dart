@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:news_zen/core/theme/colors.dart';
-import 'package:news_zen/core/utils/app_assets.dart';
-import 'package:news_zen/features/main/presentation/notifications_screen/notifications_screen.dart';
-
-import '../../../../core/widgets/custom_appbar.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart'; // For handling URL clicks
+
+import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/custom_appbar.dart';
+
 class AIChatScreen extends StatefulWidget {
   const AIChatScreen({super.key});
 
@@ -31,49 +30,46 @@ class _AIChatScreenState extends State<AIChatScreen> {
 
     final response = await _getChatbotResponse(text);
     setState(() {
-      _messages.insert(0, ChatMessage(isUserMessage: false, message: response));
+      _messages.insert(0, response);
     });
   }
 
-  // Simulate receiving a response from the chatbot
-  /* Future<String> _getChatbotResponse(String message) async {
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Simple chatbot logic
-    if (message.toLowerCase().contains('hello')) {
-      return 'Hi there! How can I assist you today?';
-    } else if (message.toLowerCase().contains('news')) {
-      return 'Here are the latest news updates...';
-    } else {
-      return 'I\'m sorry, I didn\'t understand that. Can you please rephrase?';
-    }
-  }*/
-
-  Future<String> _getChatbotResponse(String message) async {
-    //const String apiUrl = "http://10.0.2.2:5000/predict"; // Replace with your server URL
+  // Fetch chatbot response from the API
+  Future<ChatMessage> _getChatbotResponse(String message) async {
     const String apiUrl = "https://chat-zen.vercel.app/predict"; // Replace with your server URL
-    var regBody = {
-      "query":message,
 
-
-    };
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"query": message}),
       );
-      print('comes here');
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = jsonDecode(response.body);
-        print(responseData['rag_response']);
-        return responseData["rag_response"] ?? "No response from chatbot.";
+        final String ragResponse = responseData["rag_response"] ?? "No response from chatbot.";
+        final String source = responseData["source"] ?? "Unknown Source";
+        final String url = responseData["url"] ?? "#";
+        final String dateTime = responseData["dateTime"] ?? DateTime.now().toString();
+
+        return ChatMessage(
+          isUserMessage: false,
+          message: ragResponse,
+          source: source,
+          url: url,
+          dateTime: dateTime,
+        );
       } else {
-        return "Error: ${response.statusCode}, ${response.body}";
+        return ChatMessage(
+          isUserMessage: false,
+          message: "Error: ${response.statusCode}, ${response.body}",
+        );
       }
     } catch (e) {
-      return "Failed to connect to chatbot: $e";
+      return ChatMessage(
+        isUserMessage: false,
+        message: "Failed to connect to chatbot: $e",
+      );
     }
   }
 
@@ -97,6 +93,9 @@ class _AIChatScreenState extends State<AIChatScreen> {
                   return ChatBubble(
                     isUserMessage: message.isUserMessage,
                     message: message.message,
+                    source: message.source,
+                    url: message.url,
+                    dateTime: message.dateTime,
                   );
                 },
               ),
@@ -142,33 +141,96 @@ class _AIChatScreenState extends State<AIChatScreen> {
 class ChatMessage {
   final bool isUserMessage;
   final String message;
+  final String? source; // Source of the news
+  final String? url; // Clickable URL
+  final String? dateTime; // Date and time of the news
 
-  ChatMessage({required this.isUserMessage, required this.message});
+  ChatMessage({
+    required this.isUserMessage,
+    required this.message,
+    this.source,
+    this.url,
+    this.dateTime,
+  });
 }
 
 class ChatBubble extends StatelessWidget {
   final bool isUserMessage;
   final String message;
+  final String? source;
+  final String? url;
+  final String? dateTime;
 
-  const ChatBubble({super.key, required this.isUserMessage, required this.message});
+  const ChatBubble({
+    super.key,
+    required this.isUserMessage,
+    required this.message,
+    this.source,
+    this.url,
+    this.dateTime,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: isUserMessage ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
           color: isUserMessage ? primary_red : Colors.grey[300],
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Text(
-          message,
-          style: TextStyle(
-            color: isUserMessage ? Colors.white : Colors.black,
-            fontSize: 14,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Display the message
+            Text(
+              message,
+              style: TextStyle(
+                color: isUserMessage ? Colors.white : Colors.black,
+                fontSize: 14,
+              ),
+            ),
+            // Display source, URL, and dateTime if available
+            if (source != null || url != null || dateTime != null)
+              const SizedBox(height: 8),
+            if (source != null)
+              Text(
+                "Source: $source",
+                style: TextStyle(
+                  color: isUserMessage ? Colors.white.withOpacity(0.8) : Colors.black.withOpacity(0.6),
+                  fontSize: 12,
+                ),
+              ),
+            if (dateTime != null)
+              Text(
+                "Date: $dateTime",
+                style: TextStyle(
+                  color: isUserMessage ? Colors.white.withOpacity(0.8) : Colors.black.withOpacity(0.6),
+                  fontSize: 12,
+                ),
+              ),
+            if (url != null)
+              InkWell(
+                onTap: () async {
+                  if (await canLaunch(url!)) {
+                    await launch(url!);
+                  } else {
+                    print("Could not launch $url");
+                  }
+                },
+                child: Text(
+                  "URL: $url",
+                  style: TextStyle(
+                    color: isUserMessage ? Colors.white.withOpacity(0.8) : Colors.blue,
+                    fontSize: 12,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+
+          ],
         ),
       ),
     );

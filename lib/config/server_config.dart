@@ -1,5 +1,7 @@
 final url = 'https://newszen-apibackend.vercel.app/';
 
+//final url = 'https://192.168.225.27/';
+
 final registration = url + "registration";
 
 final loginurl = url + "login";
@@ -36,6 +38,10 @@ final updateuserinfourl = url + "updateUserInfo";
 final twitterdatafetchurl = datafetchurl + "/twitter";
 
 final twittermostviewedurl = mostviewedurl + "/twitter";
+
+final youtubedatafetchurl = datafetchurl + "/youtube";
+final youtubemostviewedurl = mostviewedurl + "/youtube";
+
 
 final getsavedurl = url + "getsavednews";
 

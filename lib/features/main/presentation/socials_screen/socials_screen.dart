@@ -24,7 +24,7 @@ class _SocialsPageState extends State<SocialsPage> {
 
   final List<String> tags = [
     'All', // Add "All" as the first option
-    'Cricket', 'Bangladesh', 'Palestine', 'Islam', 'Football', 'Technology', 'World'
+    'Cricket', 'Islam', 'Bangladesh', 'Palestine', 'Football', 'Technology', 'World'
   ];
 
   @override
@@ -37,7 +37,7 @@ class _SocialsPageState extends State<SocialsPage> {
   List<SocialModel> getFilteredPosts(List<SocialModel> posts) {
     return posts.where((post) {
       bool matchesPlatform = selectedPlatform == 'All' || post.source.contains(selectedPlatform);
-      bool matchesSearch = searchQuery.isEmpty || post.title.toLowerCase().contains(searchQuery.toLowerCase());
+      bool matchesSearch = searchQuery.isEmpty || post.description.toLowerCase().contains(searchQuery.toLowerCase());
       bool matchesTag = selectedTag == 'All' || post.topic.contains(selectedTag);
       return matchesPlatform && matchesSearch && matchesTag;
     }).toList();
@@ -69,38 +69,38 @@ class _SocialsPageState extends State<SocialsPage> {
               return Column(
                 children: [
                   // Platform Toggle with Icons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _buildPlatformIcon('All', 'assets/social_icons/globe.png'), // Replace with your icon path
-                      const SizedBox(width: 10),
-                      _buildPlatformIcon('Twitter', 'assets/social_icons/twitter.png'), // Replace with your icon path
-                      const SizedBox(width: 10),
-                      _buildPlatformIcon('YouTube', 'assets/social_icons/youtube.png'), // Replace with your icon path
-                    ],
-                  ),
-                  const SizedBox(height: 16),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     _buildPlatformIcon('All', 'assets/social_icons/globe.png'), // Replace with your icon path
+                  //     const SizedBox(width: 10),
+                  //     _buildPlatformIcon('Twitter', 'assets/social_icons/twitter.png'), // Replace with your icon path
+                  //     const SizedBox(width: 10),
+                  //     _buildPlatformIcon('YouTube', 'assets/social_icons/youtube.png'), // Replace with your icon path
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 16),
 
                   // Search Bar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Container(
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFE3E3),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: TextField(
-                        onChanged: (value) => setState(() => searchQuery = value),
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //   child: Container(
+                  //     height: 48,
+                  //     decoration: BoxDecoration(
+                  //       color: const Color(0xFFFFE3E3),
+                  //       borderRadius: BorderRadius.circular(20),
+                  //     ),
+                  //     child: TextField(
+                  //       onChanged: (value) => setState(() => searchQuery = value),
+                  //       decoration: InputDecoration(
+                  //         hintText: 'Search',
+                  //         border: InputBorder.none,
+                  //         contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 16),
 
                   // Horizontal Tag Scroll
                   SizedBox(

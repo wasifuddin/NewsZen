@@ -9,16 +9,10 @@ class SocialPostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the background color based on the platform
-    final Color backgroundColor = post.source.toLowerCase().contains('twitter')
-        ? Colors.blue[50]! // Bluish hue for Twitter
-        : Colors.red[50]!; // Reddish hue for YouTube
-
     // Split the source field into account name and username
     final List<String> sourceParts = post.source.split(',');
     final String accountName = sourceParts[0].trim();
-    final String username1 = sourceParts.length > 1 ? sourceParts[1].trim() : '';
-    String username = post.source;
+    final String username = sourceParts.length > 1 ? sourceParts[1].trim() : '';
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -26,7 +20,7 @@ class SocialPostCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 2,
-      color: backgroundColor, // Set the background color
+      color: Colors.white, // Set the background color to white
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,11 +29,9 @@ class SocialPostCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                // Platform logo
+                // Platform logo (always Twitter)
                 Image.asset(
-                  post.source.toLowerCase().contains('twitter')
-                      ? 'assets/social_icons/twitter.png' // Replace with your Twitter logo path
-                      : 'assets/social_icons/youtube.png', // Replace with your YouTube logo path
+                  'assets/social_icons/twitter.png', // Replace with your Twitter logo path
                   width: 32,
                   height: 32,
                 ),
@@ -56,7 +48,7 @@ class SocialPostCard extends StatelessWidget {
                         fontFamily: 'Montserrat',
                       ),
                     ),
-                    //if (username.isNotEmpty)
+                    if (username.isNotEmpty)
                       Text(
                         '@$username',
                         style: TextStyle(
@@ -70,22 +62,39 @@ class SocialPostCard extends StatelessWidget {
               ],
             ),
           ),
-          // Post content
-          if (post.description.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                post.description,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontFamily: 'Montserrat',
-                  height: 1.4,
-                ),
+          // Date and time of the post
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              'Posted on: ${_formatDateTime(post.dateTime)}',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[600],
+                fontFamily: 'Montserrat',
               ),
             ),
+          ),
+          const SizedBox(height: 8),
+          // Post content (description)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              post.description,
+              style: const TextStyle(
+                fontSize: 15,
+                fontFamily: 'Montserrat',
+                height: 1.4,
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
         ],
       ),
     );
+  }
+
+  // Helper function to format the date and time
+  String _formatDateTime(DateTime dateTime) {
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute}';
   }
 }
