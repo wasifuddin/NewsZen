@@ -15,7 +15,7 @@ class ExplorePopularScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: main_background_colour,
         title: const Text(
-          'Explore Results',
+          'Explore by Tag',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,

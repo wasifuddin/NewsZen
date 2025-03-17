@@ -68,6 +68,15 @@ class PrefUtils{
     return _sharedPreferences?.getString('password');
   }
 
+  // Clear all login-related information
+  static Future<void> clearLoginInfo() async {
+    await _ensureInitialized();
+    await _sharedPreferences?.remove('email'); // Remove email
+    await _sharedPreferences?.remove('username'); // Remove username
+    await _sharedPreferences?.remove('password'); // Remove password
+    await _sharedPreferences?.remove('token'); // Remove token (if applicable)
+  }
+
   void logout(BuildContext context) async {
     //await PrefUtils.clearLoginInfo(); // Remove stored credentials
 

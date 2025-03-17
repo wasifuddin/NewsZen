@@ -11,10 +11,18 @@ import 'package:news_zen/features/main/presentation/login_form/bloc/login_cubit.
 import 'package:news_zen/features/weather/presentation/widgets/weather_widget.dart';
 import 'package:news_zen/features/weather/presentation/screens/detailed_weather_screen.dart';
 
+import '../../../../core/utils/pref_utils.dart';
 import '../../../../core/widgets/custom_appbar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  // Fetch username and email from PrefUtils
+  Future<Map<String, String?>> _loadUserData() async {
+    final email = await PrefUtils.getEmail();
+    final username = await PrefUtils.getUserName();
+    return {'email': email, 'username': username};
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,66 +35,74 @@ class ProfileScreen extends StatelessWidget {
             // Profile Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  // Profile Picture and Info
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage:
-                            AssetImage(AppAssets.image.img_user_profile),
+              child: FutureBuilder<Map<String, String?>>(
+                future: _loadUserData(), // Fetch data from PrefUtils
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Show a loading indicator while fetching data
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    // Handle errors
+                    return Center(
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                        style: const TextStyle(color: Colors.red),
                       ),
-                      //const SizedBox(width: 20),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                    );
+                  } else if (!snapshot.hasData ||
+                      snapshot.data!['username'] == null ||
+                      snapshot.data!['email'] == null) {
+                    // Handle case where data is not available
+                    return const Center(
+                      child: Text(
+                        'No data found',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    );
+                  } else {
+                    // Display the fetched data
+                    final username = snapshot.data!['username']!;
+                    final email = snapshot.data!['email']!;
+
+                    return Column(
+                      children: [
+                        // Profile Picture and Info
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              'Rihila Sumayya',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
+                            CircleAvatar(
+                              radius: 40,
+                              backgroundImage:
+                              AssetImage(AppAssets.image.img_user_profile),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    username, // Display the username
+                                    style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    email, // Display the email
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Text(
-                              'rihila@iut-dhaka.edu',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
+                            const SizedBox(width: 20),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 20,)
-                    ],
-                  ),
-                  // const SizedBox(height: 20),
-                  // // Edit Profile Button
-                  // SizedBox(
-                  //   width: double.infinity,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (context) => const EditProfileScreen(),
-                  //         ),
-                  //       );
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: const Color(0xFFD32F2F),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(12),
-                  //       ),
-                  //       padding: const EdgeInsets.symmetric(vertical: 16),
-                  //     ),
-                  //     child: const Text('Edit Profile'),
-                  //   ),
-                  // ),
-                ],
+                      ],
+                    );
+                  }
+                },
               ),
             ),
             const SizedBox(height: 20),
