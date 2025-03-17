@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../../../../../config/server_config.dart';
+import '../../../../../core/utils/pref_utils.dart';
 
 part 'explore_state.dart';
 part 'explore_event.dart';
@@ -13,12 +14,30 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
   bool hasMoreData = true;
   int currentPage = 1;
   int limit = 10;
+  List<NewsModel> recomendedNews=[];
 
   ExploreBloc() : super(ExploreLoadingState()) {
     on<ChangeTopicEvent>(_onChangeTopic);
     on<LoadExploreDataEvent>(_onLoadExploreData);
     on<SelectTagEvent>(_onSelectTag);
-    on<FetchPopularNewsEvent>(_onFetchPopularNews); // New event handler
+    on<FetchPopularNewsEvent>(_onFetchPopularNews);
+
+    on<LoadRecomendedNewsEvent>(_onLoadRecomendedNews); // New event handler
+
+    add(LoadRecomendedNewsEvent());
+    // New event handler
+
+   // Trigger loading recommended news on initialization// New event handler
+  }
+  void _onLoadRecomendedNews(LoadRecomendedNewsEvent event, Emitter<ExploreState> emit) async {
+    try {
+
+      await _loadRecomendedData();
+
+     // emit(ExploreLoadedState(recomendedNews, 'Recommended'));
+    } catch (e) {
+      emit(ExploreErrorState('Error loading recommended news: $e'));
+    }
   }
 
   void _onChangeTopic(ChangeTopicEvent event, Emitter<ExploreState> emit) {
@@ -79,4 +98,83 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       emit(ExploreErrorState('An error occurred: $e'));
     }
   }
+  Future<void> _loadRecomendedData() async {
+
+
+    try {
+
+      final getpriorityurl = getsavedurl;
+
+      await PrefUtils.init();
+
+      String? email = await PrefUtils.getEmail();
+
+
+      var regBody ={"email": await email ?? ""};
+      print(email);
+
+      var response = await http.post(
+        Uri.parse(getprioritiesuser),
+        headers: {"Content-type":"application/json"},
+        body: jsonEncode(regBody),
+      );
+      print(response.statusCode);
+      print(response.body);
+
+
+      if (response.statusCode == 200) {
+
+
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == true) {
+          Map<String, int> categoryPriority = Map<String, int>.from(jsonResponse['categoryPriority']);
+          Map<String, int> sourcePriority = Map<String, int>.from(jsonResponse['sourcePriority']);
+
+          // Debugging prints
+          print("Category Priority: $categoryPriority");
+          print("Source Priority: $sourcePriority");
+
+          Map<String, dynamic> requestBody = {
+            "page": 1,
+            "limit": 10,
+            "categoryPriority": categoryPriority,
+            "sourcePriority": sourcePriority
+          };
+
+          var responsefinal = await http.post(
+            Uri.parse(getrecomendednews),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(requestBody),
+          );
+
+
+
+          List<dynamic> dataNewRecomended = json.decode(responsefinal.body);
+
+
+          // Now you can use dataNew as a Map to access the properties
+          List<NewsModel> news= dataNewRecomended.map((item) => NewsModel.fromJson(item)).toList();
+
+          recomendedNews.addAll(news);
+          print(recomendedNews[0]);
+
+
+
+          // Prints the savedNews array
+        }
+
+
+      } else {
+
+        emit(ExploreErrorState("hi"));
+      }
+    } catch (e) {
+      emit(ExploreErrorState( e.toString()));
+    }
+  }
+  List<NewsModel> loadRecomendedData(){
+    print('hi iam here');
+    return recomendedNews;
+  }
+
 }

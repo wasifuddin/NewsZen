@@ -21,3 +21,5 @@ class FetchPopularNewsEvent extends ExploreEvent {
 
   FetchPopularNewsEvent(this.tag);
 }
+
+class LoadRecomendedNewsEvent extends ExploreEvent {}

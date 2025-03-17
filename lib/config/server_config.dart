@@ -38,3 +38,7 @@ final twittermostviewedurl = mostviewedurl + "/twitter";
 final getsavedurl = url + "getsavednews";
 
 final getnewsbyid= url + "news";
+
+final getrecomendednews = url +"recommended";
+
+final getprioritiesuser = url +"getpriorities";

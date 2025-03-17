@@ -11,11 +11,15 @@ import 'package:news_zen/features/main/presentation/saved_screen/bloc/saved_stat
 class SavedCubit extends Cubit<SavedState> {
 
   List<NewsModel> savedNews=[];
+
   List<dynamic> data = [];
+
+  List<NewsModel> recomendedNews=[];
 
 
   SavedCubit() : super(SavedNewsInitial())  {
     _loadSaveData();
+    _loadRecomendedData();
   }
 
   Future<void> _loadSaveData() async {
@@ -98,6 +102,75 @@ class SavedCubit extends Cubit<SavedState> {
   }
   List<NewsModel> loadSaveData(){
     return savedNews;
+  }
+  Future<void> _loadRecomendedData() async {
+
+
+    try {
+
+      final getpriorityurl = getsavedurl;
+
+      await PrefUtils.init();
+
+      String? email = await PrefUtils.getEmail();
+
+
+      var regBody ={"email": await email ?? ""};
+
+      var response = await http.post(
+        Uri.parse(getprioritiesuser),
+        headers: {"Content-type":"application/json"},
+        body: jsonEncode(regBody),
+      );
+
+
+      if (response.statusCode == 200) {
+
+
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['status'] == true) {
+          Map<String, int> categoryPriority = Map<String, int>.from(jsonResponse['categoryPriority']);
+          Map<String, int> sourcePriority = Map<String, int>.from(jsonResponse['sourcePriority']);
+
+          // Debugging prints
+          print("Category Priority: $categoryPriority");
+          print("Source Priority: $sourcePriority");
+
+          Map<String, dynamic> requestBody = {
+            "page": 1,
+            "limit": 10,
+            "categoryPriority": categoryPriority,
+            "sourcePriority": sourcePriority
+          };
+
+          var responsefinal = await http.post(
+            Uri.parse(getrecomendednews),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(requestBody),
+          );
+
+          Map<String, dynamic> dataNewRecomended = json.decode(responsefinal.body);
+
+          // Now you can use dataNew as a Map to access the properties
+          NewsModel news = NewsModel.fromJson(dataNewRecomended);
+          recomendedNews.add(news);
+
+
+
+          // Prints the savedNews array
+        }
+
+
+      } else {
+
+        emit(SavedNewsError(error: 'Failed to load news'));
+      }
+    } catch (e) {
+      emit(SavedNewsError(error: e.toString()));
+    }
+  }
+  List<NewsModel> loadRecomendedData(){
+    return recomendedNews;
   }
 
 }

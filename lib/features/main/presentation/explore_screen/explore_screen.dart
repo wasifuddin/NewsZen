@@ -125,20 +125,7 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     // Add your onClick action here
-                //   },
-                //   child: const Text(
-                //     'View All',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 14,
-                //       fontFamily: 'Montserrat',
-                //       fontWeight: FontWeight.w400,
-                //     ),
-                //   ),
-                // ),
+
               ],
             ),
           ),
@@ -212,31 +199,17 @@ class ExploreScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     // Add your onClick action here
-                //   },
-                //   child: const Text(
-                //     'View All',
-                //     style: TextStyle(
-                //       color: Colors.black,
-                //       fontSize: 14,
-                //       fontFamily: 'Montserrat',
-                //       fontWeight: FontWeight.w400,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 8, top: 8, right: 8.0),
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: context.read<ExploreBloc>().loadRecomendedData().length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final newsItem = state.news[index];
+                final newsItem = context.read<ExploreBloc>().loadRecomendedData()[index];
                 return NewsCard(newsItem: newsItem);
               },
             ),
